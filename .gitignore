@@ -3,3 +3,4 @@ prepros-6.config
 *.sass.map
 *.scss.map
 *.js.map
+*.config
