@@ -1,1 +1,0 @@
-## Open Sesame Web - EPICI - 2019
