@@ -49,7 +49,7 @@
           <!-- Name-->
           <input class="form-control mb-4" id="name" type="text" name="name" placeholder="Nombre"/>
           <!-- LastName-->
-          <input class="form-control mb-4" id="lastname" type="text" name="lastName" placeholder="Apellidos"/>
+          <input class="form-control mb-4" id="lastName" type="text" name="lastName" placeholder="Apellidos"/>
           <!-- Dni-->
           <input class="form-control mb-4" id="dni" type="number" name="dni" placeholder="DNI"/>
           <!-- Email-->
@@ -83,30 +83,29 @@
           const password = $('#password').val();
           const role = $('#role').val();
           const token = localStorage.getItem("token");
-          jQuery.post({
-            url: 'http://staff360api.socialpressplugin.xyz:8000/api/users/',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-            data: {
+          jQuery.post(
+            "http://staff360api.socialpressplugin.xyz:8000/api/users/",
+            {
               name,
               lastName,
               dni,
               email,
               password,
               role
-            }
-          }).done(function(response) {
-            if(response.error){
-              alert('Error al guardar al usuario.')
-            }else{
-              localStorage.setItem('token',response.token);
-              window.location.href="/html/usuarios/listado.html";
-            }
-          }).fail(function(err) {
-            console.log(err);
-            alert( "error" );
-          })
+            },
+            {
+              Authorization: `Bearer ${token}`
+            }).done(function(response) {
+              if(response.error){
+                alert('Error al guardar al usuario.')
+              }else{
+                localStorage.setItem('token',response.token);
+                window.location.href="/html/usuarios/listado.html";
+              }
+            }).fail(function(err) {
+              console.log(err);
+              alert( "error" );
+            })
         })
       });
     </script>
