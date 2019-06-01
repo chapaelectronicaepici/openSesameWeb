@@ -13,7 +13,7 @@
   <body>
     <div class="loginPage">
       <div class="centerAll row">
-        <form class="loginForm text-center border border-light p-5">
+        <form class="loginForm text-center border border-light p-5" id="formLogin">
           <div class="logoEpiciLogin"><img src="../img/EPICI.png" alt="Epici"/></div>
           <!-- Email-->
           <input class="form-control mb-4" id="defaultLoginFormEmail" type="email" placeholder="E-mail"/>
@@ -30,6 +30,14 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
-    <script src="./js/app-dist.js"></script>
+    <script>
+      jQuery(document).ready(()=> {
+      
+        const $form = $('#formLogin');
+        $form.on('submit',()=> {
+          console.log('values',$form.serialize())
+        })
+      });
+    </script>
   </body>
 </html>

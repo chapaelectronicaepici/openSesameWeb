@@ -3,7 +3,7 @@ extends index.pug
 block content
   .loginPage
     div.centerAll.row
-      form.loginForm.text-center.border.border-light.p-5
+      form.loginForm.text-center.border.border-light.p-5#formLogin
         div.logoEpiciLogin
           img(src="../img/EPICI.png", alt="Epici")
         // Email
@@ -15,3 +15,14 @@ block content
         button.btn.btn-info.btn-block.my-4(type='submit') Iniciar Sesión
         div.copyright
           | © Cortegana, Chinchay, Lluén, Peña  
+
+block scripts
+  script.
+    jQuery(document).ready(()=> {
+    
+      const $form = $('#formLogin');
+      $form.on('submit',()=> {
+        console.log('values',$form.serialize())
+      })
+    });
+    
