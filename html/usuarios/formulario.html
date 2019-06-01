@@ -47,23 +47,28 @@
         <form class="text-center border border-light p-5">
           <p class="h4 mb-4">USUARIO</p>
           <!-- Name-->
-          <input class="form-control mb-4" id="defaultContactFormName" type="text" name="name" placeholder="Nombre"/>
+          <input class="form-control mb-4" id="name" type="text" name="name" placeholder="Nombre"/>
           <!-- LastName-->
-          <input class="form-control mb-4" id="defaultContactFormName" type="text" name="lastName" placeholder="Apellidos"/>
+          <input class="form-control mb-4" id="lastname" type="text" name="lastName" placeholder="Apellidos"/>
           <!-- Dni-->
-          <input class="form-control mb-4" id="defaultContactFormName" type="number" name="dni" placeholder="DNI"/>
+          <input class="form-control mb-4" id="dni" type="number" name="dni" placeholder="DNI"/>
           <!-- Email-->
-          <input class="form-control mb-4" id="defaultContactFormEmail" type="email" placeholder="E-mail"/>
+          <input class="form-control mb-4" id="email" type="email" name="email" placeholder="E-mail"/>
           <!--Password-->
-          <input class="form-control mb-4" id="defaultContactFormName" type="password" name="password" placeholder="Contraseña"/>
+          <input class="form-control mb-4" id="password" type="password" name="password" placeholder="Contraseña"/>
           <!-- Tipo de Usuario-->
-          <select class="browser-default custom-select mb-4" name="role">
+          <select class="browser-default custom-select mb-4" id="role" name="role">
             <option value="" disabled="" selected="">Elija Opción</option>
             <option value="administrator">Administrador</option>
             <option value="teacher">Docente</option>
           </select>
           <!-- Send button-->
           <button class="btn btn-info btn-block" type="submit">Guardar</button>
+          <script>
+            $('#submit').clic(function()){
+              var Nombre = document.getElementById
+            }
+          </script>
         </form>
       </div>
     </main>
@@ -72,5 +77,10 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
     <script src="./js/app-dist.js"></script>
+    <script>
+      $('#submit').clic(function()){
+        var Nombre = document.getElementById
+      }
+    </script>
   </body>
 </html>
