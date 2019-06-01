@@ -1,0 +1,61 @@
+header
+
+  nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
+    .container-fluid
+      // Brand
+      a.navbar-brand.waves-effect(href='https://mdbootstrap.com/docs/jquery/' target='_blank')
+        strong.blue-text MDB
+      // Collapse
+      button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      // Links
+      #navbarSupportedContent.collapse.navbar-collapse
+        // Left
+        ul.navbar-nav.mr-auto
+          li.nav-item.active
+            a.nav-link.waves-effect(href='#')
+              | Home
+              span.sr-only (current)
+          li.nav-item
+            a.nav-link.waves-effect(href='https://mdbootstrap.com/docs/jquery/' target='_blank')
+              | About
+              | MDB
+          li.nav-item
+            a.nav-link.waves-effect(href='https://mdbootstrap.com/docs/jquery/getting-started/download/' target='_blank')
+              | Free
+              | download
+          li.nav-item
+            a.nav-link.waves-effect(href='https://mdbootstrap.com/education/bootstrap/' target='_blank')
+              | Free
+              | tutorials
+        // Right
+        ul.navbar-nav.nav-flex-icons
+          li.nav-item
+            a.nav-link.waves-effect(href='https://www.facebook.com/mdbootstrap' target='_blank')
+              i.fab.fa-facebook-f
+          li.nav-item
+            a.nav-link.waves-effect(href='https://twitter.com/MDBootstrap' target='_blank')
+              i.fab.fa-twitter
+          li.nav-item
+            a.nav-link.border.border-light.rounded.waves-effect(href='https://github.com/mdbootstrap/bootstrap-material-design' target='_blank')
+              i.fab.fa-github.mr-2
+              | MDB GitHub
+.sidebar-fixed.position-fixed
+  a.logo-wrapper.waves-effect
+    img.img-fluid(src='https://mdbootstrap.com/img/logo/mdb-email.png' alt='')
+  .list-group.list-group-flush
+    a.list-group-item.active.waves-effect(href='#')
+      i.fas.fa-chart-pie.mr-3
+      | Dashboard
+    a.list-group-item.list-group-item-action.waves-effect(href='#')
+      i.fas.fa-user.mr-3
+      | Profile
+    a.list-group-item.list-group-item-action.waves-effect(href='#')
+      i.fas.fa-table.mr-3
+      | Tables
+    a.list-group-item.list-group-item-action.waves-effect(href='#')
+      i.fas.fa-map.mr-3
+      | Maps
+    a.list-group-item.list-group-item-action.waves-effect(href='#')
+      i.fas.fa-money-bill-alt.mr-3
+      | Orders
