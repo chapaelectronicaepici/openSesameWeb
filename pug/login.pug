@@ -7,22 +7,37 @@ block content
         div.logoEpiciLogin
           img(src="../img/EPICI.png", alt="Epici")
         // Email
-        input#defaultLoginFormEmail.form-control.mb-4(type='email' placeholder='E-mail')
+        input#email.form-control.mb-4(type='email' placeholder='E-mail')
         // Password
-        input#defaultLoginFormPassword.form-control.mb-4(type='password' placeholder='Password')
+        input#password.form-control.mb-4(type='password' placeholder='Password')
         .d-flex.justify-content-around
         // Sign in button
-        button.btn.btn-info.btn-block.my-4(type='submit') Iniciar Sesión
+        button.btn.btn-info.btn-block.my-4 Iniciar Sesión
         div.copyright
           | © Cortegana, Chinchay, Lluén, Peña  
 
 block scripts
   script.
     jQuery(document).ready(()=> {
-    
       const $form = $('#formLogin');
-      $form.on('submit',()=> {
-        console.log('values',$form.serialize())
+      $form.submit((event)=> {
+        event.preventDefault();
+        const email = $('#email').val();
+        const password = $('#password').val();
+        $.post('http://staff360api.socialpressplugin.xyz:8000/api/users/login',{
+          email,
+          password
+        }).done(function(response) {
+          if(response.error){
+            alert('Error al iniciar sesión, credenciales incorrectas.')
+          }else{
+            localStorage.setItem('token',response.token);
+            window.location.href="/html/usuarios/listado.html";
+          }
+        }).fail(function(err) {
+          console.log(err);
+          alert( "error" );
+        })
       })
     });
     

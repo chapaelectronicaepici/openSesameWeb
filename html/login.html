@@ -16,12 +16,12 @@
         <form class="loginForm text-center border border-light p-5" id="formLogin">
           <div class="logoEpiciLogin"><img src="../img/EPICI.png" alt="Epici"/></div>
           <!-- Email-->
-          <input class="form-control mb-4" id="defaultLoginFormEmail" type="email" placeholder="E-mail"/>
+          <input class="form-control mb-4" id="email" type="email" placeholder="E-mail"/>
           <!-- Password-->
-          <input class="form-control mb-4" id="defaultLoginFormPassword" type="password" placeholder="Password"/>
+          <input class="form-control mb-4" id="password" type="password" placeholder="Password"/>
           <div class="d-flex justify-content-around"></div>
           <!-- Sign in button-->
-          <button class="btn btn-info btn-block my-4" type="submit">Iniciar Sesión</button>
+          <button class="btn btn-info btn-block my-4">Iniciar Sesión</button>
           <div class="copyright">© Cortegana, Chinchay, Lluén, Peña  </div>
         </form>
       </div>
@@ -32,10 +32,25 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
     <script>
       jQuery(document).ready(()=> {
-      
         const $form = $('#formLogin');
-        $form.on('submit',()=> {
-          console.log('values',$form.serialize())
+        $form.submit((event)=> {
+          event.preventDefault();
+          const email = $('#email').val();
+          const password = $('#password').val();
+          $.post('http://staff360api.socialpressplugin.xyz:8000/api/users/login',{
+            email,
+            password
+          }).done(function(response) {
+            if(response.error){
+              alert('Error al iniciar sesión, credenciales incorrectas.')
+            }else{
+              localStorage.setItem('token',response.token);
+              window.location.href="/html/usuarios/listado.html";
+            }
+          }).fail(function(err) {
+            console.log(err);
+            alert( "error" );
+          })
         })
       });
     </script>
