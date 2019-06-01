@@ -1,0 +1,13 @@
+.loginPage {
+  background: #eee;
+  overflow: hidden; }
+  .loginPage .loginForm {
+    background: white; }
+  .loginPage .logoEpiciLogin {
+    margin: 0 auto;
+    margin-bottom: 2rem;
+    width: 30rem; }
+    .loginPage .logoEpiciLogin img {
+      width: 100%; }
+  .loginPage .copyright {
+    color: #a2a6a6; }
