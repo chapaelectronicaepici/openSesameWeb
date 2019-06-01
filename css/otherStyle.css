@@ -61,7 +61,6 @@
 }
 
 .btnAgregar{
-  padding: 0.5rem 0;
-  color: white;
   margin-left: auto;
+  display: block; 
 }
