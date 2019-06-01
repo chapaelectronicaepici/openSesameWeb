@@ -48,3 +48,9 @@
 .anchoLogo img{
   width: 100%
 }
+
+.textNombreUsuario{
+  margin-right: 1rem;
+  padding: 0.5rem 0;
+  
+}
