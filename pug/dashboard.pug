@@ -37,7 +37,7 @@ html(lang="en")
                   |Walter
 
               li.nav-item
-                a.nav-link.border.border-light.rounded.waves-effect(href='https://github.com/mdbootstrap/bootstrap-material-design' target='_blank')
+                a.waves-effect.btn.btn-info(href='https://github.com/mdbootstrap/bootstrap-material-design' target='_blank')
                  | SALIR 
               
       // Navbar
@@ -46,14 +46,15 @@ html(lang="en")
         a.anchoLogo
           img(src='../img/EPICI.png' alt='')
         .list-group.list-group-flush
-          a.list-group-item.active.waves-effect(href='#')
-            i.fas.fa-chart-pie.mr-3
-            | Usuarios
+          
           a.list-group-item.list-group-item-action.waves-effect(href='#')
             i.fas.fa-user.mr-3
+            | Usuarios
+          a.list-group-item.active.waves-effect(href='#')
+            i.fas.fa-book.mr-3
             | Cursos
           a.list-group-item.list-group-item-action.waves-effect(href='#')
-            i.fas.fa-table.mr-3
+            i.fas.fa-calendar-alt.mr-3
             | Horarios
 
     block content
