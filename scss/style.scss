@@ -1,6 +1,11 @@
+@import "pages/login";
+
 .centerAll {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  .loginForm {
+    width: 40rem;
+  }
 }

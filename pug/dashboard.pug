@@ -56,8 +56,11 @@ html(lang="en")
             i.fas.fa-table.mr-3
             | Horarios
 
-    block content
-    include partials/footer.pug
+
+    main.pt-5.mx-lg-5
+      .container-fluid.mt-5
+        block content
+
     script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js')
     script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js')
     script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js')
