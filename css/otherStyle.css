@@ -36,3 +36,15 @@
     display: none;
   }
 }
+
+
+.anchoLogo{
+  width: 17rem;
+  padding: 3rem 0;
+  display: block;
+  margin-left: -1.5rem;
+}
+
+.anchoLogo img{
+  width: 100%
+}
