@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Open Sesame Dashboard</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../../css/style.css"/>
+    <link rel="stylesheet" href="../../css/otherStyle.css"/>
+  </head>
+  <body class="grey lighten-3">
+    <header>
+      <!-- Navbar-->
+      <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+        <div class="container-fluid">
+          <!-- Brand--><a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank"><strong class="blue-text">EPICI</strong></a>
+          <!-- Collapse-->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <!-- Links-->
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Left-->
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active"><a class="nav-link waves-effect" href="#">Usuario<span class="sr-only">(current)</span></a></li>
+              <li class="nav-item"><a class="nav-link waves-effect" href="" target="">Horarios </a></li>
+              <li class="nav-item"><a class="nav-link waves-effect" href="" target="">Cursos </a></li>
+              <li class="nav-item"><a class="nav-link waves-effect" href="" target=""></a></li>
+            </ul>
+            <!-- Right-->
+            <ul class="navbar-nav nav-flex-icons">
+              <li class="textNombreUsuario nav-item">Walter</li>
+              <li class="nav-item"><a class="waves-effect btn btn-info" href="https://github.com/mdbootstrap/bootstrap-material-design" target="_blank">SALIR </a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- Navbar-->
+      <!-- Sidebar-->
+      <div class="sidebar-fixed position-fixed"><a class="anchoLogo"><img src="../img/EPICI.png" alt=""/></a>
+        <div class="list-group list-group-flush"><a class="list-group-item list-group-item-action waves-effect" href="#"><i class="fas fa-user mr-3"></i>Usuarios</a><a class="list-group-item active waves-effect" href="#"><i class="fas fa-book mr-3"></i>Cursos</a><a class="list-group-item list-group-item-action waves-effect" href="#"><i class="fas fa-calendar-alt mr-3"></i>Horarios</a></div>
+      </div>
+    </header>
+    <main class="pt-5 mx-lg-5">
+      <div class="container-fluid mt-5">
+        <div class="listadoCursos"></div>
+        <table class="table table-hover table-fixed"></table>
+        <!-- Table head-->
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Country</th>
+            <th>City</th>
+            <th>Position</th>
+            <th>Age</th>
+          </tr>
+        </thead>
+        <!-- Table head-->
+        <!-- Table body-->
+        <tbody>
+          <tr>
+            <th scope="row">4</th>
+            <td>Jerry</td>
+            <td>Horwitz</td>
+            <td>Italy</td>
+            <td>Bari</td>
+            <td>Editor-in-chief</td>
+            <td>41</td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <td>Janis</td>
+            <td>Joplin</td>
+            <td>Poland</td>
+            <td>Warsaw</td>
+            <td>Video Maker</td>
+            <td>39</td>
+          </tr>
+          <tr>
+            <th scope="row">6</th>
+            <td>Gary</td>
+            <td>Winogrand</td>
+            <td>Germany</td>
+            <td>Berlin</td>
+            <td>Photographer</td>
+            <td>37</td>
+          </tr>
+          <tr>
+            <th scope="row">7</th>
+            <td>Angie</td>
+            <td>Smith</td>
+            <td>USA</td>
+            <td>San Francisco</td>
+            <td>Teacher</td>
+            <td>52</td>
+          </tr>
+          <tr>
+            <th scope="row">8</th>
+            <td>John</td>
+            <td>Mattis</td>
+            <td>France</td>
+            <td>Paris</td>
+            <td>Actor</td>
+            <td>28</td>
+          </tr>
+          <tr>
+            <th scope="row">9</th>
+            <td>Otto</td>
+            <td>Morris</td>
+            <td>Germany</td>
+            <td>Munich</td>
+            <td>Singer</td>
+            <td>35</td>
+          </tr>
+        </tbody>
+      </div>
+    </main>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
+    <script src="./js/app-dist.js"></script>
+  </body>
+</html>
