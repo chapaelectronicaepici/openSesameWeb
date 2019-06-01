@@ -11,13 +11,20 @@
     <link rel="stylesheet" href="../../css/style.css"/>
   </head>
   <body>
-    <button class="btn btn-indigo" type="button">Indigo</button>
-    <footer id="footer">
-      <p>Copyright (c) foobar</p>
-      <div class="hola"> 
-        <p>Como estás</p>
+    <div class="container">
+      <div class="centerAll row">
+        <form class="text-center border border-light p-5 col-md-6">
+          <p class="h4 mb-4">Sign in</p>
+          <!-- Email-->
+          <input class="form-control mb-4" id="defaultLoginFormEmail" type="email" placeholder="E-mail"/>
+          <!-- Password-->
+          <input class="form-control mb-4" id="defaultLoginFormPassword" type="password" placeholder="Password"/>
+          <div class="d-flex justify-content-around"></div>
+          <!-- Sign in button-->
+          <button class="btn btn-info btn-block my-4" type="submit">Iniciar Sesión</button>
+        </form>
       </div>
-    </footer>
+    </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>

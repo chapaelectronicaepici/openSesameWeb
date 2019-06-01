@@ -1,4 +1,14 @@
 extends index.pug
 
 block content
-  button.btn.btn-indigo(type='button') Indigo
+  .container
+    div.centerAll.row
+      form.text-center.border.border-light.p-5.col-md-6
+        p.h4.mb-4 Sign in
+        // Email
+        input#defaultLoginFormEmail.form-control.mb-4(type='email' placeholder='E-mail')
+        // Password
+        input#defaultLoginFormPassword.form-control.mb-4(type='password' placeholder='Password')
+        .d-flex.justify-content-around
+        // Sign in button
+        button.btn.btn-info.btn-block.my-4(type='submit') Iniciar Sesión
