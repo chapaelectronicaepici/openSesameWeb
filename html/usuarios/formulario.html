@@ -44,7 +44,7 @@
     </header>
     <main class="pt-5 mx-lg-5">
       <div class="container-fluid mt-5">
-        <form class="text-center border border-light p-5">
+        <form class="text-center border border-light p-5" id="formularioUsuario">
           <p class="h4 mb-4">USUARIO</p>
           <!-- Name-->
           <input class="form-control mb-4" id="name" type="text" name="name" placeholder="Nombre"/>
@@ -64,11 +64,6 @@
           </select>
           <!-- Send button-->
           <button class="btn btn-info btn-block" type="submit">Guardar</button>
-          <script>
-            $('#submit').clic(function()){
-              var Nombre = document.getElementById
-            }
-          </script>
         </form>
       </div>
     </main>
@@ -76,11 +71,44 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
-    <script src="./js/app-dist.js"></script>
     <script>
-      $('#submit').clic(function()){
-        var Nombre = document.getElementById
-      }
+      jQuery(document).ready(()=> {
+        const $form = $('#formularioUsuario');
+        $form.submit((event)=> {
+          event.preventDefault();
+          const name = $('#name').val();
+          const lastName = $('#lastName').val();
+          const dni = $('#dni').val();
+          const email = $('#email').val();
+          const password = $('#password').val();
+          const role = $('#role').val();
+          const token = localStorage.getItem("token");
+          jQuery.post({
+            url: 'http://staff360api.socialpressplugin.xyz:8000/api/users/',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            data: {
+              name,
+              lastName,
+              dni,
+              email,
+              password,
+              role
+            }
+          }).done(function(response) {
+            if(response.error){
+              alert('Error al guardar al usuario.')
+            }else{
+              localStorage.setItem('token',response.token);
+              window.location.href="/html/usuarios/listado.html";
+            }
+          }).fail(function(err) {
+            console.log(err);
+            alert( "error" );
+          })
+        })
+      });
     </script>
   </body>
 </html>

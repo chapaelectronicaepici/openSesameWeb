@@ -1,7 +1,7 @@
 extends ../dashboard.pug
 
 block content
-  form.text-center.border.border-light.p-5
+  form#formularioUsuario.text-center.border.border-light.p-5
     p.h4.mb-4 USUARIO
     // Name
     input#name.form-control.mb-4(type='text', name= "name", placeholder='Nombre')
@@ -22,8 +22,42 @@ block content
     // Send button
     button.btn.btn-info.btn-block(type='submit') Guardar
 
-    block scripts
-      script.
-        $('#submit').clic(function()){
-          var Nombre = document.getElementById
-        }
+block scripts
+  script.
+    jQuery(document).ready(()=> {
+      const $form = $('#formularioUsuario');
+      $form.submit((event)=> {
+        event.preventDefault();
+        const name = $('#name').val();
+        const lastName = $('#lastName').val();
+        const dni = $('#dni').val();
+        const email = $('#email').val();
+        const password = $('#password').val();
+        const role = $('#role').val();
+        const token = localStorage.getItem("token");
+        jQuery.post({
+          url: 'http://staff360api.socialpressplugin.xyz:8000/api/users/',
+          headers: {
+              'Authorization': `Bearer ${token}`,
+          },
+          data: {
+            name,
+            lastName,
+            dni,
+            email,
+            password,
+            role
+          }
+        }).done(function(response) {
+          if(response.error){
+            alert('Error al guardar al usuario.')
+          }else{
+            localStorage.setItem('token',response.token);
+            window.location.href="/html/usuarios/listado.html";
+          }
+        }).fail(function(err) {
+          console.log(err);
+          alert( "error" );
+        })
+      })
+    });
