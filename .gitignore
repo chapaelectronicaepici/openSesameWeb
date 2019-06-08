@@ -6,5 +6,7 @@ prepros-6.config
 *.config
 /node_modules/
 yarn.lock
-
+html/*
+html/
+html
 .env

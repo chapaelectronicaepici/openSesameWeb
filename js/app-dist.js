@@ -75,8 +75,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 })(typeof window != "undefined" ? window : undefined);
 
 var config = {
-  //api: "http://staff360api.socialpressplugin.xyz:8000",
-  api: "http://localhost:8000"
+  api: "http://staff360api.socialpressplugin.xyz:8000"
+  //api: "http://localhost:8000"
 };
 
 var fetchApi = async function fetchApi(endPoint) {
@@ -161,7 +161,41 @@ var listadoUsuarios = async function listadoUsuarios() {
 };
 
 var formularioCurso = function formularioCurso() {
-  console.log("formulario curso");
+  var $form = $("#formularioCurso");
+  $form.submit(function (event) {
+    event.preventDefault();
+    var name = $("#name").val();
+    var lastName = $("#lastName").val();
+    fetchApi("/api/users/", {
+      name: name,
+      lastName: lastName,
+      dni: dni,
+      email: email,
+      password: password,
+      role: role
+    }, "POST").then(function (response) {
+      if (response.error) {
+        alert("Error al guardar al usuario.");
+      } else {
+        // localStorage.setItem("token", response.token);
+        redirectTo("usuarios_listado");
+      }
+    }).catch(function (err) {
+      console.log(err);
+      alert("error");
+    });
+  });
+
+  llenarFormulario();
+};
+
+var llenarFormulario = async function llenarFormulario() {
+  var users = await fetchApi("/api/users/", {
+    role: "teacher"
+  });
+  $("#roleSelect").append("\n    " + users.map(function (user) {
+    return "<option value=\"" + user._id + "\">" + user.name + " " + user.lastName + "</option>";
+  }) + "\n  ");
 };
 
 var listadoCursos = async function listadoCursos() {
@@ -233,25 +267,25 @@ var OpenSesame = function OpenSesame() {
     _this.dashboard();
   };
 
-  this.dashboard = function () {
+  this.dashboard = async function () {
+    if (_this.currentPath === "login") return;
     $("#salir").on("click", function (event) {
       event.preventDefault();
       localStorage.clear();
       redirectTo("login");
     });
-
     $(".list-group-item,.nav-link").each(function (index, el) {
       if (el.href === _this.currentHref) {
         $(el).addClass("active");
         $(el).parent(".nav-item").addClass("active");
       }
     });
-
-    fetchApi("/api/users/data/me").then(function (res) {
-      $(".textNombreUsuario").html(res.name);
-    }).catch(function (err) {
-      console.log(err);
-    });
+    var name = localStorage.getItem("name");
+    if (!name) {
+      var user = await fetchApi("/api/users/data/me");
+      localStorage.setItem("name", user.name + " " + user.lastName);
+    }
+    $(".textNombreUsuario").html(name);
   };
 
   this.setCurrentPath = function () {

@@ -55,13 +55,13 @@ class OpenSesame {
     this.dashboard();
   };
 
-  dashboard = () => {
+  dashboard = async () => {
+    if (this.currentPath === "login") return;
     $("#salir").on("click", event => {
       event.preventDefault();
       localStorage.clear();
       redirectTo("login");
     });
-
     $(".list-group-item,.nav-link").each((index, el) => {
       if (el.href === this.currentHref) {
         $(el).addClass("active");
@@ -70,14 +70,12 @@ class OpenSesame {
           .addClass("active");
       }
     });
-
-    fetchApi("/api/users/data/me")
-      .then(res => {
-        $(".textNombreUsuario").html(res.name);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    const name = localStorage.getItem("name");
+    if (!name) {
+      const user = await fetchApi("/api/users/data/me");
+      localStorage.setItem("name", `${user.name} ${user.lastName}`);
+    }
+    $(".textNombreUsuario").html(name);
   };
 
   setCurrentPath = () => {

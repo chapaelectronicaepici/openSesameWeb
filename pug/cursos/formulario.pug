@@ -1,16 +1,14 @@
 extends ../dashboard.pug
 
 block content
-  form.text-center.border.border-light.p-5
+  form#formularioCurso.text-center.border.border-light.p-5
     p.h4.mb-4 REGISTRO DE CURSOS
     // Name
     input#name.form-control.mb-4(type='text', name= "name", placeholder='Nombre del Curso')
    
     // Tipo de Usuario
-    select#role.browser-default.custom-select.mb-4(name= "user")
+    select#roleSelect.browser-default.custom-select.mb-4(name= "user")
       option(value='', disabled='', selected='') Elija Docente
-      option(value='1') Ing. Paico Bravo Jessi
-      option(value='2') Ing. Serquen Yparragiurre Oscar Alex
     
     // Send button
     button.btn.btn-info.btn-block(type='submit') Registrar
