@@ -4,3 +4,7 @@ prepros-6.config
 *.scss.map
 *.js.map
 *.config
+/node_modules/
+yarn.lock
+
+.env

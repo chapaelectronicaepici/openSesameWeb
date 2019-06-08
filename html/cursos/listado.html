@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -16,22 +16,21 @@
       <!-- Navbar-->
       <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
         <div class="container-fluid">
-          <!-- Brand--><a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank"><strong class="blue-text">EPICI</strong></a>
+          <!-- Brand--><a class="navbar-brand waves-effect" href="/html/usuarios/listado.html"><strong class="blue-text">EPICI</strong></a>
           <!-- Collapse-->
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navBarMenu" aria-controls="navBarMenu" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
           <!-- Links-->
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left-->
+          <div class="collapse navbar-collapse" id="navBarMenu">
+            <!-- Left -->
             <ul class="navbar-nav mr-auto">
-              <li class="nav-item active"><a class="nav-link waves-effect" href="#">Usuario<span class="sr-only">(current)</span></a></li>
-              <li class="nav-item"><a class="nav-link waves-effect" href="" target="">Horarios </a></li>
-              <li class="nav-item"><a class="nav-link waves-effect" href="" target="">Cursos </a></li>
-              <li class="nav-item"><a class="nav-link waves-effect" href="" target=""></a></li>
+              <li class="nav-item"><a class="nav-link waves-effect" href="/html/usuarios/listado.html">Usuario</a></li>
+              <li class="nav-item"><a class="nav-link waves-effect" href="/html/cursos/listado.html">Cursos </a></li>
+              <li class="nav-item"><a class="nav-link waves-effect" href="/html/horarios/listado.html">Horarios </a></li>
             </ul>
             <!-- Right-->
             <ul class="navbar-nav nav-flex-icons">
-              <li class="textNombreUsuario nav-item">Walter</li>
-              <li class="nav-item"><a class="waves-effect btn btn-info" href="https://github.com/mdbootstrap/bootstrap-material-design" target="_blank">SALIR </a></li>
+              <li class="textNombreUsuario nav-item"></li>
+              <li class="nav-item"><a class="waves-effect btn btn-info" id="salir" href="#" target="_blank">SALIR </a></li>
             </ul>
           </div>
         </div>
@@ -39,30 +38,31 @@
       <!-- Navbar-->
       <!-- Sidebar-->
       <div class="sidebar-fixed position-fixed"><a class="anchoLogo"><img src="/img/EPICI.png" alt=""/></a>
-        <div class="list-group list-group-flush"><a class="list-group-item list-group-item-action waves-effect" href="#"><i class="fas fa-user mr-3"></i>Usuarios</a><a class="list-group-item active waves-effect" href="#"><i class="fas fa-book mr-3"></i>Cursos</a><a class="list-group-item list-group-item-action waves-effect" href="#"><i class="fas fa-calendar-alt mr-3"></i>Horarios</a></div>
+        <div class="list-group list-group-flush"><a class="list-group-item list-group-item-action waves-effect" href="/html/usuarios/listado.html"><i class="fas fa-user mr-3"></i>Usuarios</a><a class="list-group-item list-group-item-action waves-effect" href="/html/cursos/listado.html"><i class="fas fa-book mr-3"></i>Cursos</a><a class="list-group-item list-group-item-action waves-effect" href="/html/cursos/horarios.html"><i class="fas fa-calendar-alt mr-3"></i>Horarios</a></div>
       </div>
     </header>
     <main class="pt-5 mx-lg-5">
       <div class="container-fluid mt-5">
-        <div class="listadoCursos"></div>
-        <div>
-          <button class="btnAgregar btn btn-info">AGREGAR</button>
-        </div>
-        <div class="table-responsive text-nowrap"></div>
-        <!-- Table-->
-        <table class="table table-striped">
-          <!-- Table head-->
-          <thead>
-            <tr>
-              <th>N°</th>
-              <th>CURSO</th>
-              <th>GRUPO</th>
-              <th>DOCENTE</th>
-            </tr>
-          </thead>
+        <div class="listadoCursos">
+          <div>
+            <button class="btnAgregar btn btn-info">AGREGAR</button>
+          </div>
+          <div class="table-responsive text-nowrap"></div>
+          <!-- Table-->
+          <table class="table table-striped">
+            <!-- Table head-->
+            <thead>
+              <tr> 
+                <th>N°</th>
+                <th>CURSO</th>
+                <th>GRUPO</th>
+                <th>DOCENTE</th>
+              </tr>
+            </thead>
+          </table>
           <!-- Table head-->
           <!-- Table body-->
-        </table>
+        </div>
         <!--  tbody
         tr
           th(scope='row') 1
@@ -138,6 +138,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
-    <script src="./js/app-dist.js"></script>
+    <script src="/js/app-dist.js"></script>
   </body>
 </html>

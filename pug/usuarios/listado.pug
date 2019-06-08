@@ -1,4 +1,15 @@
 extends ../dashboard.pug
 
 block content
-  p listadocascas 
+  div
+    button.btnAgregar.btn.btn-info AGREGAR
+
+    .table-responsive.text-nowrap
+      table#usuariosTable.table.table-striped
+        thead
+          tr 
+            th N°
+            th NOMBRE
+            th CORREO
+            th ROL
+            th OPCIONES

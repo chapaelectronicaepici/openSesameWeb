@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-html(lang="en")
+html(lang="es")
   head
     include partials/headDashboard.pug
   body.grey.lighten-3
@@ -8,36 +8,30 @@ html(lang="en")
       nav.navbar.fixed-top.navbar-expand-lg.navbar-light.white.scrolling-navbar
         .container-fluid
           // Brand
-          a.navbar-brand.waves-effect(href='https://mdbootstrap.com/docs/jquery/' target='_blank')
+          a.navbar-brand.waves-effect(href='/html/usuarios/listado.html')
             strong.blue-text EPICI
           // Collapse
-          button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+          button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navBarMenu' aria-controls='navBarMenu' aria-expanded='false' aria-label='Toggle navigation')
             span.navbar-toggler-icon
           // Links
-          #navbarSupportedContent.collapse.navbar-collapse
-            // Left
+          #navBarMenu.collapse.navbar-collapse
+            // Left 
             ul.navbar-nav.mr-auto
-              li.nav-item.active
-                a.nav-link.waves-effect(href='#')
+              li.nav-item
+                a.nav-link.waves-effect(href='/html/usuarios/listado.html')
                   | Usuario
-                  span.sr-only (current)
               li.nav-item
-                a.nav-link.waves-effect(href='' target='')
-                  | Horarios 
-              li.nav-item
-                a.nav-link.waves-effect(href='' target='')
+                a.nav-link.waves-effect(href='/html/cursos/listado.html')
                   | Cursos 
               li.nav-item
-                a.nav-link.waves-effect(href='' target='')
+                a.nav-link.waves-effect(href='/html/horarios/listado.html')
+                  | Horarios 
                   
             // Right
             ul.navbar-nav.nav-flex-icons
-         
               li.textNombreUsuario.nav-item
-                  |Walter
-
               li.nav-item
-                a.waves-effect.btn.btn-info(href='https://github.com/mdbootstrap/bootstrap-material-design' target='_blank')
+                a#salir.waves-effect.btn.btn-info(href='#' target='_blank')
                  | SALIR 
               
       // Navbar
@@ -46,14 +40,13 @@ html(lang="en")
         a.anchoLogo
           img(src='/img/EPICI.png' alt='')
         .list-group.list-group-flush
-          
-          a.list-group-item.list-group-item-action.waves-effect(href='#')
+          a.list-group-item.list-group-item-action.waves-effect(href='/html/usuarios/listado.html')
             i.fas.fa-user.mr-3
             | Usuarios
-          a.list-group-item.active.waves-effect(href='#')
+          a.list-group-item.list-group-item-action.waves-effect(href='/html/cursos/listado.html')
             i.fas.fa-book.mr-3
             | Cursos
-          a.list-group-item.list-group-item-action.waves-effect(href='#')
+          a.list-group-item.list-group-item-action.waves-effect(href='/html/cursos/horarios.html')
             i.fas.fa-calendar-alt.mr-3
             | Horarios
 
@@ -66,5 +59,5 @@ html(lang="en")
     script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js')
     script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js')
     script(type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js')
-
+    script(src="/js/app-dist.js")
     block scripts

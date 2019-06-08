@@ -15,29 +15,3 @@ block content
         button.btn.btn-info.btn-block.my-4 Iniciar Sesión
         div.copyright
           | © Cortegana, Chinchay, Lluén, Peña  
-
-block scripts
-  script.
-    jQuery(document).ready(()=> {
-      const $form = $('#formLogin');
-      $form.submit((event)=> {
-        event.preventDefault();
-        const email = $('#email').val();
-        const password = $('#password').val();
-        $.post('http://staff360api.socialpressplugin.xyz:8000/api/users/login',{
-          email,
-          password
-        }).done(function(response) {
-          if(response.error){
-            alert('Error al iniciar sesión, credenciales incorrectas.')
-          }else{
-            localStorage.setItem('token',response.token);
-            window.location.href="/html/usuarios/listado.html";
-          }
-        }).fail(function(err) {
-          console.log(err);
-          alert( "error" );
-        })
-      })
-    });
-    
