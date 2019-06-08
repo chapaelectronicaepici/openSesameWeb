@@ -1,6 +1,6 @@
 const config = {
-  api: "http://staff360api.socialpressplugin.xyz:8000"
-  //api: "http://localhost:8000"
+  // api: "http://staff360api.socialpressplugin.xyz:8000"
+  api: "http://localhost:8000"
 };
 
 const fetchApi = async (

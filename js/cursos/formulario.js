@@ -3,16 +3,12 @@ const formularioCurso = () => {
   $form.submit(event => {
     event.preventDefault();
     const name = $("#name").val();
-    const lastName = $("#lastName").val();
+    const user = $("#userSelect").val();
     fetchApi(
-      "/api/users/",
+      "/api/courses/",
       {
         name,
-        lastName,
-        dni,
-        email,
-        password,
-        role
+        user
       },
       "POST"
     )
@@ -37,7 +33,7 @@ const llenarFormulario = async () => {
   const users = await fetchApi("/api/users/", {
     role: "teacher"
   });
-  $("#roleSelect").append(`
+  $("#userSelect").append(`
     ${users.map(user => {
       return `<option value="${user._id}">${user.name} ${
         user.lastName

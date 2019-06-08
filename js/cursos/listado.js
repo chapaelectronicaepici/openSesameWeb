@@ -4,5 +4,5 @@ const listadoCursos = async () => {
     redirectTo("cursos_formulario");
   });
 
-
+  const users = await fetchApi("/api/courses/");
 };

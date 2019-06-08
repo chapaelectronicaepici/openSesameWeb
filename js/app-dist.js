@@ -75,8 +75,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 })(typeof window != "undefined" ? window : undefined);
 
 var config = {
-  api: "http://staff360api.socialpressplugin.xyz:8000"
-  //api: "http://localhost:8000"
+  // api: "http://staff360api.socialpressplugin.xyz:8000"
+  api: "http://localhost:8000"
 };
 
 var fetchApi = async function fetchApi(endPoint) {
@@ -165,14 +165,10 @@ var formularioCurso = function formularioCurso() {
   $form.submit(function (event) {
     event.preventDefault();
     var name = $("#name").val();
-    var lastName = $("#lastName").val();
-    fetchApi("/api/users/", {
+    var user = $("#userSelect").val();
+    fetchApi("/api/courses/", {
       name: name,
-      lastName: lastName,
-      dni: dni,
-      email: email,
-      password: password,
-      role: role
+      user: user
     }, "POST").then(function (response) {
       if (response.error) {
         alert("Error al guardar al usuario.");
@@ -193,7 +189,7 @@ var llenarFormulario = async function llenarFormulario() {
   var users = await fetchApi("/api/users/", {
     role: "teacher"
   });
-  $("#roleSelect").append("\n    " + users.map(function (user) {
+  $("#userSelect").append("\n    " + users.map(function (user) {
     return "<option value=\"" + user._id + "\">" + user.name + " " + user.lastName + "</option>";
   }) + "\n  ");
 };
@@ -203,6 +199,8 @@ var listadoCursos = async function listadoCursos() {
     event.preventDefault();
     redirectTo("cursos_formulario");
   });
+
+  var users = await fetchApi("/api/courses/");
 };
 
 //@prepros-prepend fetchival.js
