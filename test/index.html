@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en - US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>HORA </title>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+
+  <link rel="stylesheet" href="jquery-timepicker/jquery.timepacker.min.css">
+  <script src="jquery-timepicker/jquery.timepacker.min.js"></script>
+
+  <script>
+  
+  $(document).ready(funtion){
+    $('#time').timepicker({
+      timeFormart : 'h:mm:ss p'
+    });
+  }
+  </script>
+</head>
+<body>
+  <input type="text" id="time"/>
+</body>
+</html>
