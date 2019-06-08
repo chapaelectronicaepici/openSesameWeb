@@ -21,10 +21,16 @@ const redirectTo = pathName => {
   if (paths[pathName]) window.location.href = paths[pathName];
 };
 
+const getRoute = pathName => {
+  if (paths[pathName]) return paths[pathName];
+  else return "";
+};
+
 class OpenSesame {
   currentPath = "";
   currentRoute = "";
   currentHref = "";
+  origin = "";
   init = () => {
     this.setCurrentPath();
     this.validateIsLogin();
@@ -34,16 +40,16 @@ class OpenSesame {
   callScripts = () => {
     switch (this.currentPath) {
       case "login":
-        loginForm();
+        loginForm(this);
         break;
       case "usuarios_listado":
-        listadoUsuarios();
+        listadoUsuarios(this);
         break;
       case "usuarios_formulario":
-        formularioUsuario();
+        formularioUsuario(this);
         break;
       case "cursos_listado":
-        listadoCursos();
+        listadoCursos(this);
         break;
       case "cursos_formulario":
         formularioCurso();
@@ -86,6 +92,7 @@ class OpenSesame {
         this.currentPath = key;
         this.currentRoute = paths[key];
         this.currentHref = `${origin}${paths[key]}`;
+        this.origin = origin;
       }
     }
   };

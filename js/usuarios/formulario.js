@@ -1,16 +1,46 @@
-const formularioUsuario = () => {
+const formularioUsuario = async () => {
+  const url_string = window.location.href;
+  const url = new URL(url_string);
+  const idUser = url.searchParams.get("id") || "";
+  let method = "POST";
+  if (idUser) {
+    method = "PUT";
+    try {
+      const { error, user } = await fetchApi(`/api/users/${idUser}`);
+      if (error) {
+        redirectTo("usuarios_listado");
+      }
+      $("#name").val(user.name);
+      $("#lastName").val(user.lastName);
+      $("#dni").val(user.dni);
+      $("#email").val(user.email);
+      $("#password").val(user.password);
+      $("#role").val(user.role);
+    } catch (error) {
+      redirectTo("usuarios_listado");
+    }
+  }
   const $form = $("#formularioUsuario");
   $form.submit(event => {
     event.preventDefault();
-    const name = $("#name").val();
-    const lastName = $("#lastName").val();
-    const dni = $("#dni").val();
-    const email = $("#email").val();
-    const password = $("#password").val();
+    const name = $("#name")
+      .val()
+      .trim();
+    const lastName = $("#lastName")
+      .val()
+      .trim();
+    const dni = $("#dni")
+      .val()
+      .trim();
+    const email = $("#email")
+      .val()
+      .trim();
+    const password = $("#password")
+      .val()
+      .trim();
     const role = $("#role").val();
-    const token = localStorage.getItem("token");
     fetchApi(
-      "/api/users/",
+      `/api/users/${idUser}`,
       {
         name,
         lastName,
@@ -19,7 +49,7 @@ const formularioUsuario = () => {
         password,
         role
       },
-      "POST"
+      method
     )
       .then(response => {
         if (response.error) {

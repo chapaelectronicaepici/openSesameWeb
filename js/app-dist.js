@@ -75,8 +75,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 })(typeof window != "undefined" ? window : undefined);
 
 var config = {
-  api: "http://staff360api.socialpressplugin.xyz:8000"
-  //api: "http://localhost:8000"
+  //api: "http://staff360api.socialpressplugin.xyz:8000"
+  api: "http://localhost:8000"
 };
 
 var fetchApi = async function fetchApi(endPoint) {
@@ -116,25 +116,48 @@ var loginForm = function loginForm() {
   });
 };
 
-var formularioUsuario = function formularioUsuario() {
+var formularioUsuario = async function formularioUsuario() {
+  var url_string = window.location.href;
+  var url = new URL(url_string);
+  var idUser = url.searchParams.get("id") || "";
+  var method = "POST";
+  if (idUser) {
+    method = "PUT";
+    try {
+      var _ref = await fetchApi("/api/users/" + idUser),
+          error = _ref.error,
+          user = _ref.user;
+
+      if (error) {
+        redirectTo("usuarios_listado");
+      }
+      $("#name").val(user.name);
+      $("#lastName").val(user.lastName);
+      $("#dni").val(user.dni);
+      $("#email").val(user.email);
+      $("#password").val(user.password);
+      $("#role").val(user.role);
+    } catch (error) {
+      redirectTo("usuarios_listado");
+    }
+  }
   var $form = $("#formularioUsuario");
   $form.submit(function (event) {
     event.preventDefault();
-    var name = $("#name").val();
-    var lastName = $("#lastName").val();
-    var dni = $("#dni").val();
-    var email = $("#email").val();
-    var password = $("#password").val();
+    var name = $("#name").val().trim();
+    var lastName = $("#lastName").val().trim();
+    var dni = $("#dni").val().trim();
+    var email = $("#email").val().trim();
+    var password = $("#password").val().trim();
     var role = $("#role").val();
-    var token = localStorage.getItem("token");
-    fetchApi("/api/users/", {
+    fetchApi("/api/users/" + idUser, {
       name: name,
       lastName: lastName,
       dni: dni,
       email: email,
       password: password,
       role: role
-    }, "POST").then(function (response) {
+    }, method).then(function (response) {
       if (response.error) {
         alert("Error al guardar al usuario.");
       } else {
@@ -148,37 +171,67 @@ var formularioUsuario = function formularioUsuario() {
   });
 };
 
-var listadoUsuarios = async function listadoUsuarios() {
+var listadoUsuarios = function listadoUsuarios(page) {
   $(".btnAgregar").on("click", function (event) {
     event.preventDefault();
     redirectTo("usuarios_formulario");
   });
 
+  renderUsuarios();
+};
+
+var renderUsuarios = async function renderUsuarios() {
   var users = await fetchApi("/api/users/");
+  $("#usuariosTable tbody").html("");
   $("#usuariosTable").append("\n    <tbody>\n      " + users.map(function (user, index) {
-    return "\n          <tr>\n            <td>" + (index + 1) + "</td>\n            <td>" + user.name + " " + user.lastName + "</td>\n            <td>" + user.email + "</td>\n            <td>" + (user.role === "teacher" ? "Profesor" : "Administrador") + "</td>\n            <td>\n              <button type=\"button\" class=\"btn btn-outline-info btn-rounded waves-effect\">\n                <i class=\"fa fa-pen\" aria-hidden=\"true\"></i>\n              </button>\n              <button type=\"button\" class=\"btn btn-danger btn-rounded waves-effect\">\n                <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n              </button>\n            </td>\n          </tr>\n        ";
+    var popup = "\n          <div class=\"modal fade\" id=\"confirmDeleteUser" + user._id + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\"\n              aria-hidden=\"true\">\n              <div class=\"modal-dialog\" role=\"document\">\n                <div class=\"modal-content\">\n                  <div class=\"modal-header\">\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">\xBFSeguro que desea eliminar el usuario?</h5>\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                      <span aria-hidden=\"true\">&times;</span>\n                    </button>\n                  </div>\n                  <div class=\"modal-body\">\n                    Ya no podr\xE1 acceder a este usuario despues.\n                  </div>\n                  <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cerrar</button>\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onclick=\"eliminarUsuario('" + user._id + "')\">Eliminar</button>\n                  </div>\n                </div>\n              </div>\n        </div>\n        ";
+
+    var html = "\n          <tr>\n            <td>" + (index + 1) + "</td>\n            <td>" + user.name + " " + user.lastName + "</td>\n            <td>" + user.email + "</td>\n            <td>" + (user.role === "teacher" ? "Profesor" : "Administrador") + "</td>\n            <td>\n              <a href=\"" + getRoute("usuarios_formulario") + "?id=" + user._id + "\" type=\"button\" class=\"btn btn-outline-info btn-rounded waves-effect\">\n                <i class=\"fa fa-pen\" aria-hidden=\"true\"></i>\n              </a>\n              <button type=\"button\" class=\"btn btn-danger btn-rounded waves-effect\" data-toggle=\"modal\" data-target=\"#confirmDeleteUser" + user._id + "\">\n                <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n              </button>\n            </td>\n            <td>\n              " + popup + "\n            </td>\n          </tr>\n        ";
+    return html;
   }) + "\n    </tbody>\n  ");
 };
 
-var formularioCurso = function formularioCurso() {
+var eliminarUsuario = async function eliminarUsuario(id) {
+  var userDelete = await fetchApi("/api/users/" + id + "/", {}, "DELETE");
+  renderUsuarios();
+};
+
+var formularioCurso = async function formularioCurso() {
+  var url_string = window.location.href;
+  var url = new URL(url_string);
+  var idUser = url.searchParams.get("id") || "";
+  var method = "POST";
+  if (idUser) {
+    method = "PUT";
+    try {
+      var _ref2 = await fetchApi("/api/courses/" + idUser),
+          error = _ref2.error,
+          course = _ref2.course;
+
+      if (error) {
+        // redirectTo("cursos_listado");
+      }
+      $("#name").val(course.name);
+      $("#user").val(course.user);
+    } catch (error) {
+      // redirectTo("cursos_listado");
+    }
+  }
+
   var $form = $("#formularioCurso");
   $form.submit(function (event) {
     event.preventDefault();
     var name = $("#name").val();
-    var lastName = $("#lastName").val();
-    fetchApi("/api/users/", {
+    var user = $("#userSelect").val();
+    fetchApi("/api/courses/" + idUser, {
       name: name,
-      lastName: lastName,
-      dni: dni,
-      email: email,
-      password: password,
-      role: role
-    }, "POST").then(function (response) {
+      user: user
+    }, method).then(function (response) {
       if (response.error) {
         alert("Error al guardar al usuario.");
       } else {
         // localStorage.setItem("token", response.token);
-        redirectTo("usuarios_listado");
+        redirectTo("cursos_listado");
       }
     }).catch(function (err) {
       console.log(err);
@@ -193,16 +246,38 @@ var llenarFormulario = async function llenarFormulario() {
   var users = await fetchApi("/api/users/", {
     role: "teacher"
   });
-  $("#roleSelect").append("\n    " + users.map(function (user) {
+  if (users.length === 0) {
+    alert("Por favor, registre profesores");
+    return;
+  }
+  $("#userSelect").append("\n    " + users.map(function (user) {
     return "<option value=\"" + user._id + "\">" + user.name + " " + user.lastName + "</option>";
   }) + "\n  ");
 };
 
-var listadoCursos = async function listadoCursos() {
+var listadoCursos = function listadoCursos() {
   $(".btnAgregar").on("click", function (event) {
     event.preventDefault();
     redirectTo("cursos_formulario");
   });
+  renderCursos();
+};
+
+var renderCursos = async function renderCursos() {
+  var courses = await fetchApi("/api/courses/");
+  $("#cursosTable tbody").html("");
+  $("#cursosTable").append("\n    <tbody>\n      " + courses.map(function (course, index) {
+    var popup = "\n          <div class=\"modal fade\" id=\"confirmDeleteCurso" + course._id + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\"\n              aria-hidden=\"true\">\n              <div class=\"modal-dialog\" role=\"document\">\n                <div class=\"modal-content\">\n                  <div class=\"modal-header\">\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">\xBFSeguro que desea eliminar el curso?</h5>\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                      <span aria-hidden=\"true\">&times;</span>\n                    </button>\n                  </div>\n                  <div class=\"modal-body\">\n                    Ya no podr\xE1 acceder a este curso despues.\n                  </div>\n                  <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cerrar</button>\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onclick=\"eliminarCurso('" + course._id + "')\">Eliminar</button>\n                  </div>\n                </div>\n              </div>\n        </div>\n        ";
+    var userName = "No asignado";
+    if (course.user) userName = course.user.name + " " + course.user.lastName;
+
+    return "\n          <tr>\n            <td>" + (index + 1) + "</td>\n            <td>" + course.name + "</td>\n            <td>" + userName + "</td>\n            <td>\n              <a href=\"" + getRoute("cursos_formulario") + "?id=" + course._id + "\" type=\"button\" class=\"btn btn-outline-info btn-rounded waves-effect\">\n                <i class=\"fa fa-pen\" aria-hidden=\"true\"></i>\n              </a>\n              <button type=\"button\" class=\"btn btn-danger btn-rounded waves-effect\" data-toggle=\"modal\" data-target=\"#confirmDeleteCurso" + course._id + "\">\n                <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n              </button>\n            </td>\n            <td>" + popup + " </td>\n          </tr>\n        ";
+  }) + "\n    </tbody>\n  ");
+};
+
+var eliminarCurso = async function eliminarCurso(id) {
+  await fetchApi("/api/courses/" + id + "/", {}, "DELETE");
+  renderCursos();
 };
 
 //@prepros-prepend fetchival.js
@@ -228,6 +303,10 @@ var redirectTo = function redirectTo(pathName) {
   if (paths[pathName]) window.location.href = paths[pathName];
 };
 
+var getRoute = function getRoute(pathName) {
+  if (paths[pathName]) return paths[pathName];else return "";
+};
+
 var OpenSesame = function OpenSesame() {
   var _this = this;
 
@@ -236,6 +315,7 @@ var OpenSesame = function OpenSesame() {
   this.currentPath = "";
   this.currentRoute = "";
   this.currentHref = "";
+  this.origin = "";
 
   this.init = function () {
     _this.setCurrentPath();
@@ -246,16 +326,16 @@ var OpenSesame = function OpenSesame() {
   this.callScripts = function () {
     switch (_this.currentPath) {
       case "login":
-        loginForm();
+        loginForm(_this);
         break;
       case "usuarios_listado":
-        listadoUsuarios();
+        listadoUsuarios(_this);
         break;
       case "usuarios_formulario":
-        formularioUsuario();
+        formularioUsuario(_this);
         break;
       case "cursos_listado":
-        listadoCursos();
+        listadoCursos(_this);
         break;
       case "cursos_formulario":
         formularioCurso();
@@ -299,6 +379,7 @@ var OpenSesame = function OpenSesame() {
         _this.currentPath = key;
         _this.currentRoute = paths[key];
         _this.currentHref = "" + origin + paths[key];
+        _this.origin = origin;
       }
     }
   };
