@@ -86,7 +86,9 @@ const showFormularioHorario = edit => {
     evt.preventDefault();
     saveHorario();
   });
-
+  $("#daySelect").on("change", function(event) {
+    currentHorario.day = $(this).val();
+  });
   if (edit !== true) setDefaultValuesFormHorario();
 };
 
@@ -248,7 +250,6 @@ const editarHorario = index => {
   $("#btnSubmitFormularioHorario").html("MODIFICAR");
   $("#formularioHorario .h4").html("MODIFICAR HORARIO");
   $("#daySelect").val(String(horario.day));
-  console.log("editando");
   setDateTimePicker(
     "#timepickerStart",
     horario.startTime,
@@ -276,7 +277,6 @@ const setDefaultValuesFormHorario = () => {
   $("#daySelect").on("change", function(event) {
     currentHorario.day = $(this).val();
   });
-
   setDateTimePicker("#timepickerStart", "7:30", "7:30", "19:30", "startTime");
   setDateTimePicker("#timepickerEnd", "8:20", "8:20", "19:30", "endTime");
 };

@@ -1,29 +1,17 @@
 extends ../dashboard.pug
 
 block content
- .listado
-  form.text-center.border.border-light.p-5
-    p.h4.mb-4 HORARIO DE DOCENTE
-   
-   
-    // Tipo de Usuario
-    select#role.browser-default.custom-select.mb-4(name= "user")
-      option(value='', disabled='', selected='') Elija Docente
-      option(value='1') Ing. Paico Bravo Jessi
-      option(value='2') Ing. Serquen Yparragiurre Oscar Alex
-    
-    // Send button
-    button.btn.btn-info.btn-block(type='submit') Filtrar
+  .listadoHorario
+    h4 Horario Laboratorio 01
+    #calendar
 
+block styles
+  link(href='/js/fullcalendar/packages/core/main.css', rel='stylesheet')
+  link(href='/js/fullcalendar/packages/daygrid/main.css', rel='stylesheet')
+  link(href='/js/fullcalendar/packages/timegrid/main.css', rel='stylesheet')
 
-  .table-responsive.text-nowrap
- 
-  // Table
-  table.table.table-striped
-    // Table head
-    thead
-      tr
-        th N°
-        th CURSO
-        th GRUPO
-        th DOCENTE
+block scripts
+  script(src='/js/fullcalendar/packages/core/main.js')
+  script(src='/js/fullcalendar/packages/daygrid/main.js')
+  script(src='/js/fullcalendar/packages/timegrid/main.js')
+  script(src='/js/moment.min.js')

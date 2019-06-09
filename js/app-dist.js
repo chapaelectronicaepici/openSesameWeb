@@ -278,7 +278,9 @@ var showFormularioHorario = function showFormularioHorario(edit) {
     evt.preventDefault();
     saveHorario();
   });
-
+  $("#daySelect").on("change", function (event) {
+    currentHorario.day = $(this).val();
+  });
   if (edit !== true) setDefaultValuesFormHorario();
 };
 
@@ -387,7 +389,6 @@ var editarHorario = function editarHorario(index) {
   $("#btnSubmitFormularioHorario").html("MODIFICAR");
   $("#formularioHorario .h4").html("MODIFICAR HORARIO");
   $("#daySelect").val(String(horario.day));
-  console.log("editando");
   setDateTimePicker("#timepickerStart", horario.startTime, "7:30", "19:30", "startTime");
   setDateTimePicker("#timepickerEnd", horario.endTime, "8:20", "19:30", "endTime");
 };
@@ -405,7 +406,6 @@ var setDefaultValuesFormHorario = function setDefaultValuesFormHorario() {
   $("#daySelect").on("change", function (event) {
     currentHorario.day = $(this).val();
   });
-
   setDateTimePicker("#timepickerStart", "7:30", "7:30", "19:30", "startTime");
   setDateTimePicker("#timepickerEnd", "8:20", "8:20", "19:30", "endTime");
 };
@@ -435,6 +435,77 @@ var eliminarCurso = async function eliminarCurso(id) {
   renderCursos();
 };
 
+var configurarHorario = async function configurarHorario() {
+  var baseDate = moment().day(1).set({
+    minutes: 0,
+    hours: 0
+  });
+  var courses = await fetchApi("/api/courses/");
+  var schedulesR = [];
+  courses.forEach(function (_ref3) {
+    var schedules = _ref3.schedules,
+        name = _ref3.name;
+
+    schedules.forEach(function (schedule) {
+      var durationStart = moment(schedule.startTime);
+      var durationEnd = moment(schedule.endTime);
+      schedulesR.push({
+        textColor: "#000000",
+        textAlign: "center",
+        color: "#66DCC0",
+        backgroundColor: "#66DCC0",
+        title: name,
+        start: baseDate.clone().add({
+          days: schedule.day,
+          minutes: durationStart.minutes(),
+          hours: durationStart.hours(),
+          seconds: durationStart.seconds()
+        }).toDate(),
+        end: baseDate.clone().add({
+          days: schedule.day,
+          minutes: durationEnd.minutes(),
+          hours: durationEnd.hours(),
+          seconds: durationEnd.seconds()
+        }).toDate()
+      });
+    });
+  });
+
+  schedulesR.map(function (sche) {
+    console.log("start", moment(sche.start).format("DD/MM/YY HH:mm"));
+    console.log("end", moment(sche.end).format("DD/MM/YY HH:mm"));
+  });
+
+  var calendarEl = document.getElementById("calendar");
+
+  var calendar = new FullCalendar.Calendar(calendarEl, {
+    plugins: ["dayGrid", "timeGrid"],
+    header: {
+      left: "",
+      center: "",
+      right: ""
+    }, // buttons for switching between views
+    selectable: false,
+    selectHelper: false,
+    editable: false,
+    eventLimit: true,
+    defaultView: "timeGridWeek",
+    minTime: "07:30:00",
+    maxTime: "20:10:00",
+    scrollTime: "20:10:00",
+    defaultDate: baseDate.toDate(),
+    slotDuration: { minutes: 50 },
+    showNonCurrentDates: false,
+    firstDay: 1,
+    columnHeaderText: function columnHeaderText(date) {
+      return daysName[moment(date).day() !== 0 ? moment(date).day() - 1 : 6];
+    },
+    events: schedulesR
+  });
+
+  calendar.render();
+};
+
 //@prepros-prepend fetchival.js
 //@prepros-prepend config.js
 //@prepros-prepend login.js
@@ -442,6 +513,7 @@ var eliminarCurso = async function eliminarCurso(id) {
 //@prepros-prepend usuarios/listado.js
 //@prepros-prepend cursos/formulario.js
 //@prepros-prepend cursos/listado.js
+//@prepros-prepend horarios/listado.js
 
 var paths = {
   login: "/html/login.html",
@@ -478,6 +550,7 @@ var OpenSesame = function OpenSesame() {
   };
 
   this.callScripts = function () {
+    console.log("this.currentPath", _this.currentPath);
     switch (_this.currentPath) {
       case "login":
         loginForm(_this);
@@ -493,6 +566,9 @@ var OpenSesame = function OpenSesame() {
         break;
       case "cursos_formulario":
         formularioCurso();
+        break;
+      case "horarios_listado":
+        configurarHorario();
         break;
       default:
         loginForm();

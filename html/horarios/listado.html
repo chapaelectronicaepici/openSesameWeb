@@ -10,6 +10,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="../../css/style.css"/>
     <link rel="stylesheet" href="../../css/otherStyle.css"/>
+    <link href="/js/fullcalendar/packages/core/main.css" rel="stylesheet"/>
+    <link href="/js/fullcalendar/packages/daygrid/main.css" rel="stylesheet"/>
+    <link href="/js/fullcalendar/packages/timegrid/main.css" rel="stylesheet"/>
   </head>
   <body class="grey lighten-3">
     <header>
@@ -23,9 +26,9 @@
           <div class="collapse navbar-collapse" id="navBarMenu">
             <!-- Left -->
             <ul class="navbar-nav mr-auto">
+              <li class="nav-item"><a class="nav-link waves-effect" href="/html/horarios/listado.html">Horarios </a></li>
               <li class="nav-item"><a class="nav-link waves-effect" href="/html/usuarios/listado.html">Usuario</a></li>
               <li class="nav-item"><a class="nav-link waves-effect" href="/html/cursos/listado.html">Cursos </a></li>
-              <li class="nav-item"><a class="nav-link waves-effect" href="/html/horarios/listado.html">Horarios </a></li>
             </ul>
             <!-- Right-->
             <ul class="navbar-nav nav-flex-icons">
@@ -38,36 +41,14 @@
       <!-- Navbar-->
       <!-- Sidebar-->
       <div class="sidebar-fixed position-fixed"><a class="anchoLogo"><img src="/img/EPICI.png" alt=""/></a>
-        <div class="list-group list-group-flush"><a class="list-group-item list-group-item-action waves-effect" href="/html/usuarios/listado.html"><i class="fas fa-user mr-3"></i>Usuarios</a><a class="list-group-item list-group-item-action waves-effect" href="/html/cursos/listado.html"><i class="fas fa-book mr-3"></i>Cursos</a><a class="list-group-item list-group-item-action waves-effect" href="/html/cursos/horarios.html"><i class="fas fa-calendar-alt mr-3"></i>Horarios</a></div>
+        <div class="list-group list-group-flush"><a class="list-group-item list-group-item-action waves-effect" href="/html/horarios/listado.html"><i class="fas fa-calendar-alt mr-3"></i>Horarios</a><a class="list-group-item list-group-item-action waves-effect" href="/html/usuarios/listado.html"><i class="fas fa-user mr-3"></i>Usuarios</a><a class="list-group-item list-group-item-action waves-effect" href="/html/cursos/listado.html"><i class="fas fa-book mr-3"></i>Cursos</a></div>
       </div>
     </header>
     <main class="pt-5 mx-lg-5">
       <div class="container-fluid mt-5">
-        <div class="listado">
-          <form class="text-center border border-light p-5">
-            <p class="h4 mb-4">HORARIO DE DOCENTE</p>
-            <!-- Tipo de Usuario-->
-            <select class="browser-default custom-select mb-4" id="role" name="user">
-              <option value="" disabled="" selected="">Elija Docente</option>
-              <option value="1">Ing. Paico Bravo Jessi</option>
-              <option value="2">Ing. Serquen Yparragiurre Oscar Alex</option>
-            </select>
-            <!-- Send button-->
-            <button class="btn btn-info btn-block" type="submit">Filtrar</button>
-          </form>
-          <div class="table-responsive text-nowrap"></div>
-          <!-- Table-->
-          <table class="table table-striped">
-            <!-- Table head-->
-            <thead>
-              <tr>
-                <th>N°</th>
-                <th>CURSO</th>
-                <th>GRUPO</th>
-                <th>DOCENTE</th>
-              </tr>
-            </thead>
-          </table>
+        <div class="listadoHorario">
+          <h4>Horario Laboratorio 01</h4>
+          <div id="calendar"></div>
         </div>
       </div>
     </main>
@@ -76,5 +57,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
     <script src="/js/app-dist.js"></script>
+    <script src="/js/fullcalendar/packages/core/main.js"></script>
+    <script src="/js/fullcalendar/packages/daygrid/main.js"></script>
+    <script src="/js/fullcalendar/packages/timegrid/main.js"></script>
+    <script src="/js/moment.min.js"></script>
   </body>
 </html>

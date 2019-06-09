@@ -5,6 +5,7 @@
 //@prepros-prepend usuarios/listado.js
 //@prepros-prepend cursos/formulario.js
 //@prepros-prepend cursos/listado.js
+//@prepros-prepend horarios/listado.js
 
 const paths = {
   login: "/html/login.html",
@@ -37,6 +38,7 @@ class OpenSesame {
   };
 
   callScripts = () => {
+    console.log("this.currentPath", this.currentPath);
     switch (this.currentPath) {
       case "login":
         loginForm(this);
@@ -52,6 +54,9 @@ class OpenSesame {
         break;
       case "cursos_formulario":
         formularioCurso();
+        break;
+      case "horarios_listado":
+        configurarHorario();
         break;
       default:
         loginForm();

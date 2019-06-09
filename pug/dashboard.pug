@@ -19,14 +19,14 @@ html(lang="es")
             // Left 
             ul.navbar-nav.mr-auto
               li.nav-item
+                a.nav-link.waves-effect(href='/html/horarios/listado.html')
+                  | Horarios 
+              li.nav-item
                 a.nav-link.waves-effect(href='/html/usuarios/listado.html')
                   | Usuario
               li.nav-item
                 a.nav-link.waves-effect(href='/html/cursos/listado.html')
                   | Cursos 
-              li.nav-item
-                a.nav-link.waves-effect(href='/html/horarios/listado.html')
-                  | Horarios 
                   
             // Right
             ul.navbar-nav.nav-flex-icons
@@ -41,15 +41,15 @@ html(lang="es")
         a.anchoLogo
           img(src='/img/EPICI.png' alt='')
         .list-group.list-group-flush
+          a.list-group-item.list-group-item-action.waves-effect(href='/html/horarios/listado.html')
+            i.fas.fa-calendar-alt.mr-3
+            | Horarios
           a.list-group-item.list-group-item-action.waves-effect(href='/html/usuarios/listado.html')
             i.fas.fa-user.mr-3
             | Usuarios
           a.list-group-item.list-group-item-action.waves-effect(href='/html/cursos/listado.html')
             i.fas.fa-book.mr-3
             | Cursos
-          a.list-group-item.list-group-item-action.waves-effect(href='/html/cursos/horarios.html')
-            i.fas.fa-calendar-alt.mr-3
-            | Horarios
 
 
     main.pt-5.mx-lg-5
