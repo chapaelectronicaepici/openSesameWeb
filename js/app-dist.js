@@ -1,5 +1,7 @@
 "use strict";
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -161,7 +163,6 @@ var formularioUsuario = async function formularioUsuario() {
       if (response.error) {
         alert("Error al guardar al usuario.");
       } else {
-        // localStorage.setItem("token", response.token);
         redirectTo("usuarios_listado");
       }
     }).catch(function (err) {
@@ -197,6 +198,7 @@ var eliminarUsuario = async function eliminarUsuario(id) {
 };
 
 var formularioCurso = async function formularioCurso() {
+  await llenarFormulario();
   var url_string = window.location.href;
   var url = new URL(url_string);
   var idUser = url.searchParams.get("id") || "";
@@ -209,12 +211,14 @@ var formularioCurso = async function formularioCurso() {
           course = _ref2.course;
 
       if (error) {
-        // redirectTo("cursos_listado");
+        redirectTo("cursos_listado");
       }
       $("#name").val(course.name);
-      $("#user").val(course.user);
+      $("#userSelect").val(course.user._id);
+      horarioList = course.schedules;
+      renderHorarioTable();
     } catch (error) {
-      // redirectTo("cursos_listado");
+      redirectTo("cursos_listado");
     }
   }
 
@@ -225,12 +229,12 @@ var formularioCurso = async function formularioCurso() {
     var user = $("#userSelect").val();
     fetchApi("/api/courses/" + idUser, {
       name: name,
-      user: user
+      user: user,
+      schedules: horarioList
     }, method).then(function (response) {
       if (response.error) {
-        alert("Error al guardar al usuario.");
+        alert("Error al guardar el curso.");
       } else {
-        // localStorage.setItem("token", response.token);
         redirectTo("cursos_listado");
       }
     }).catch(function (err) {
@@ -238,8 +242,6 @@ var formularioCurso = async function formularioCurso() {
       alert("error");
     });
   });
-
-  llenarFormulario();
 };
 
 var llenarFormulario = async function llenarFormulario() {
@@ -253,6 +255,159 @@ var llenarFormulario = async function llenarFormulario() {
   $("#userSelect").append("\n    " + users.map(function (user) {
     return "<option value=\"" + user._id + "\">" + user.name + " " + user.lastName + "</option>";
   }) + "\n  ");
+
+  $(".btnAgregarHorario").on("click", function (event) {
+    event.preventDefault();
+    showFormularioHorario();
+  });
+};
+
+var showFormularioHorario = function showFormularioHorario(edit) {
+  $(".formularioHorario").removeClass("formHidden");
+  $("#closeFormularioHorario,#formularioHorario .close").unbind("click");
+  $("#btnSubmitFormularioHorario").unbind("click");
+  $("#closeFormularioHorario,#formularioHorario .close").on("click", function (evt) {
+    $(".formularioHorario").addClass("formHidden");
+    currentHorario = {
+      isNew: true,
+      day: 0
+    };
+  });
+
+  $("#btnSubmitFormularioHorario").on("click", function (evt) {
+    evt.preventDefault();
+    saveHorario();
+  });
+
+  if (edit !== true) setDefaultValuesFormHorario();
+};
+
+var currentHorario = {
+  isNew: true,
+  day: 0
+};
+
+var horarioList = [];
+
+var daysName = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
+
+var saveHorario = async function saveHorario() {
+  if (currentHorario.isNew) {
+    horarioList.push(currentHorario);
+  } else {
+    horarioList[currentHorario.index] = _extends({}, currentHorario);
+  }
+  currentHorario = {
+    isNew: true,
+    day: 0
+  };
+  renderHorarioTable();
+  $(".formularioHorario").addClass("formHidden");
+  setDefaultValuesFormHorario();
+};
+
+var renderHorarioTable = function renderHorarioTable() {
+  $("#horarioTable tbody").html("");
+  $("#horarioTable").append("\n    <tbody>\n      " + horarioList.map(function (horario, index) {
+    var popup = "\n          <div class=\"modal fade\" id=\"confirmDeleteHorario" + index + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\"\n              aria-hidden=\"true\">\n              <div class=\"modal-dialog\" role=\"document\">\n                <div class=\"modal-content\">\n                  <div class=\"modal-header\">\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">\xBFSeguro que desea eliminar el horario?</h5>\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                      <span aria-hidden=\"true\">&times;</span>\n                    </button>\n                  </div>\n                  <div class=\"modal-body\">\n                    Ya no podr\xE1 acceder a este horario despues.\n                  </div>\n                  <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cerrar</button>\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onclick=\"eliminarHorario(" + index + ")\">Eliminar</button>\n                  </div>\n                </div>\n              </div>\n        </div>\n        ";
+
+    var html = "\n          <tr>\n            <td>" + (index + 1) + "</td>\n            <td>" + daysName[horario.day] + "</td>\n            <td>" + moment(horario.startTime).format("HH:mm") + "</td>\n            <td>" + moment(horario.endTime).format("HH:mm") + "</td>\n            <td>\n              <button type=\"button\" class=\"btn btn-outline-info btn-rounded waves-effect\" onclick=\"editarHorario(" + index + ")\">\n                <i class=\"fa fa-pen\" aria-hidden=\"true\"></i>\n              </button>\n              <button type=\"button\" class=\"btn btn-danger btn-rounded waves-effect\" data-toggle=\"modal\" data-target=\"#confirmDeleteHorario" + index + "\">\n                <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n              </button>\n            </td>\n            <td>\n              " + popup + "\n            </td>\n          </tr>\n        ";
+    return html;
+  }) + "\n    </tbody>\n  ");
+};
+
+var setDateTimePicker = function setDateTimePicker(selector, date, min, max, fieldName) {
+  var defaultTime = !moment(date).isValid() ? date : moment(date).format("HH:mm");
+  $(selector).timepicker("destroy");
+  $(selector).timepicker({
+    timeFormat: "HH:mm",
+    interval: 50, // minutes
+    minTime: min,
+    maxTime: max,
+    defaultTime: defaultTime,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true,
+    change: function change(time) {
+      currentHorario[fieldName] = time;
+      // validateTime();
+    }
+  });
+};
+
+//let newMinStartTime = null;
+//let newMinEndTime = null;
+
+/*const validateTime = () => {
+  console.log("---------");
+  console.log(currentHorario.startTime);
+  console.log(currentHorario.endTime);
+  console.log("---------");
+
+  const minEndTime = currentHorario.startTime;
+  const minStartTime = currentHorario.endTime;
+  if (
+    moment(minEndTime).isSame(newMinEndTime) &&
+    moment(minStartTime).isSame(newMinStartTime)
+  ) {
+    return;
+  }
+  newMinEndTime = minEndTime;
+  newMinStartTime = minStartTime;
+  //if (moment(currentHorario.startTime).isAfter(currentHorario.endTime)) {
+  setDateTimePicker(
+    "#timepickerStart",
+    newMinEndTime,
+    moment(newMinEndTime).format("HH:mm"),
+    "19:30",
+    "endTime"
+  );
+
+  setDateTimePicker(
+    "#timepickerEnd",
+    newMinStartTime,
+    moment(newMinStartTime).format("HH:mm"),
+    "19:30",
+    "endTime"
+  );
+  // console.log("after start to end");
+  //}
+  //if (moment(currentHorario.endTime).isAfter(currentHorario.starTime)) {
+  // console.log("after end to start");
+
+  //}
+};*/
+
+var editarHorario = function editarHorario(index) {
+  var horario = horarioList[index];
+  currentHorario = _extends({}, horario);
+  currentHorario.isNew = false;
+  currentHorario.index = index;
+  showFormularioHorario(true);
+  $("#btnSubmitFormularioHorario").html("MODIFICAR");
+  $("#formularioHorario .h4").html("MODIFICAR HORARIO");
+  $("#daySelect").val(String(horario.day));
+  console.log("editando");
+  setDateTimePicker("#timepickerStart", horario.startTime, "7:30", "19:30", "startTime");
+  setDateTimePicker("#timepickerEnd", horario.endTime, "8:20", "19:30", "endTime");
+};
+
+var eliminarHorario = function eliminarHorario(index) {
+  horarioList = horarioList.filter(function (el, pos) {
+    return index !== pos;
+  });
+  renderHorarioTable();
+  $(".modal-backdrop").remove();
+};
+
+var setDefaultValuesFormHorario = function setDefaultValuesFormHorario() {
+  $("#daySelect").val("0");
+  $("#daySelect").on("change", function (event) {
+    currentHorario.day = $(this).val();
+  });
+
+  setDateTimePicker("#timepickerStart", "7:30", "7:30", "19:30", "startTime");
+  setDateTimePicker("#timepickerEnd", "8:20", "8:20", "19:30", "endTime");
 };
 
 var listadoCursos = function listadoCursos() {
@@ -294,7 +449,6 @@ var paths = {
   usuarios_listado: "/html/usuarios/listado.html",
   usuarios_formulario: "/html/usuarios/formulario.html",
   horarios_listado: "/html/horarios/listado.html",
-  horarios_formulario: "/html/horarios/formulario.html",
   cursos_listado: "/html/cursos/listado.html",
   cursos_formulario: "/html/cursos/formulario.html"
 };

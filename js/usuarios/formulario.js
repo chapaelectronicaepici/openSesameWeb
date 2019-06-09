@@ -55,7 +55,6 @@ const formularioUsuario = async () => {
         if (response.error) {
           alert("Error al guardar al usuario.");
         } else {
-          // localStorage.setItem("token", response.token);
           redirectTo("usuarios_listado");
         }
       })

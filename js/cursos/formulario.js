@@ -1,4 +1,5 @@
 const formularioCurso = async () => {
+  await llenarFormulario();
   const url_string = window.location.href;
   const url = new URL(url_string);
   const idUser = url.searchParams.get("id") || "";
@@ -8,12 +9,14 @@ const formularioCurso = async () => {
     try {
       const { error, course } = await fetchApi(`/api/courses/${idUser}`);
       if (error) {
-        // redirectTo("cursos_listado");
+        redirectTo("cursos_listado");
       }
       $("#name").val(course.name);
-      $("#user").val(course.user);
+      $("#userSelect").val(course.user._id);
+      horarioList = course.schedules;
+      renderHorarioTable();
     } catch (error) {
-      // redirectTo("cursos_listado");
+      redirectTo("cursos_listado");
     }
   }
 
@@ -26,15 +29,15 @@ const formularioCurso = async () => {
       `/api/courses/${idUser}`,
       {
         name,
-        user
+        user,
+        schedules: horarioList
       },
       method
     )
       .then(response => {
         if (response.error) {
-          alert("Error al guardar al usuario.");
+          alert("Error al guardar el curso.");
         } else {
-          // localStorage.setItem("token", response.token);
           redirectTo("cursos_listado");
         }
       })
@@ -43,8 +46,6 @@ const formularioCurso = async () => {
         alert("error");
       });
   });
-
-  llenarFormulario();
 };
 
 const llenarFormulario = async () => {
@@ -62,4 +63,220 @@ const llenarFormulario = async () => {
       }</option>`;
     })}
   `);
+
+  $(".btnAgregarHorario").on("click", event => {
+    event.preventDefault();
+    showFormularioHorario();
+  });
+};
+
+const showFormularioHorario = edit => {
+  $(".formularioHorario").removeClass("formHidden");
+  $("#closeFormularioHorario,#formularioHorario .close").unbind("click");
+  $("#btnSubmitFormularioHorario").unbind("click");
+  $("#closeFormularioHorario,#formularioHorario .close").on("click", evt => {
+    $(".formularioHorario").addClass("formHidden");
+    currentHorario = {
+      isNew: true,
+      day: 0
+    };
+  });
+
+  $("#btnSubmitFormularioHorario").on("click", evt => {
+    evt.preventDefault();
+    saveHorario();
+  });
+
+  if (edit !== true) setDefaultValuesFormHorario();
+};
+
+let currentHorario = {
+  isNew: true,
+  day: 0
+};
+
+let horarioList = [];
+
+const daysName = [
+  "Lunes",
+  "Martes",
+  "Miercoles",
+  "Jueves",
+  "Viernes",
+  "Sabado",
+  "Domingo"
+];
+
+const saveHorario = async () => {
+  if (currentHorario.isNew) {
+    horarioList.push(currentHorario);
+  } else {
+    horarioList[currentHorario.index] = { ...currentHorario };
+  }
+  currentHorario = {
+    isNew: true,
+    day: 0
+  };
+  renderHorarioTable();
+  $(".formularioHorario").addClass("formHidden");
+  setDefaultValuesFormHorario();
+};
+
+const renderHorarioTable = () => {
+  $("#horarioTable tbody").html("");
+  $("#horarioTable").append(`
+    <tbody>
+      ${horarioList.map((horario, index) => {
+        const popup = `
+          <div class="modal fade" id="confirmDeleteHorario${index}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro que desea eliminar el horario?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Ya no podrá acceder a este horario despues.
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="eliminarHorario(${index})">Eliminar</button>
+                  </div>
+                </div>
+              </div>
+        </div>
+        `;
+
+        const html = `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${daysName[horario.day]}</td>
+            <td>${moment(horario.startTime).format("HH:mm")}</td>
+            <td>${moment(horario.endTime).format("HH:mm")}</td>
+            <td>
+              <button type="button" class="btn btn-outline-info btn-rounded waves-effect" onclick="editarHorario(${index})">
+                <i class="fa fa-pen" aria-hidden="true"></i>
+              </button>
+              <button type="button" class="btn btn-danger btn-rounded waves-effect" data-toggle="modal" data-target="#confirmDeleteHorario${index}">
+                <i class="fa fa-times" aria-hidden="true"></i>
+              </button>
+            </td>
+            <td>
+              ${popup}
+            </td>
+          </tr>
+        `;
+        return html;
+      })}
+    </tbody>
+  `);
+};
+
+const setDateTimePicker = (selector, date, min, max, fieldName) => {
+  const defaultTime = !moment(date).isValid()
+    ? date
+    : moment(date).format("HH:mm");
+  $(selector).timepicker("destroy");
+  $(selector).timepicker({
+    timeFormat: "HH:mm",
+    interval: 50, // minutes
+    minTime: min,
+    maxTime: max,
+    defaultTime,
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true,
+    change: function(time) {
+      currentHorario[fieldName] = time;
+      // validateTime();
+    }
+  });
+};
+
+//let newMinStartTime = null;
+//let newMinEndTime = null;
+
+/*const validateTime = () => {
+  console.log("---------");
+  console.log(currentHorario.startTime);
+  console.log(currentHorario.endTime);
+  console.log("---------");
+
+  const minEndTime = currentHorario.startTime;
+  const minStartTime = currentHorario.endTime;
+  if (
+    moment(minEndTime).isSame(newMinEndTime) &&
+    moment(minStartTime).isSame(newMinStartTime)
+  ) {
+    return;
+  }
+  newMinEndTime = minEndTime;
+  newMinStartTime = minStartTime;
+  //if (moment(currentHorario.startTime).isAfter(currentHorario.endTime)) {
+  setDateTimePicker(
+    "#timepickerStart",
+    newMinEndTime,
+    moment(newMinEndTime).format("HH:mm"),
+    "19:30",
+    "endTime"
+  );
+
+  setDateTimePicker(
+    "#timepickerEnd",
+    newMinStartTime,
+    moment(newMinStartTime).format("HH:mm"),
+    "19:30",
+    "endTime"
+  );
+  // console.log("after start to end");
+  //}
+  //if (moment(currentHorario.endTime).isAfter(currentHorario.starTime)) {
+  // console.log("after end to start");
+
+  //}
+};*/
+
+const editarHorario = index => {
+  const horario = horarioList[index];
+  currentHorario = { ...horario };
+  currentHorario.isNew = false;
+  currentHorario.index = index;
+  showFormularioHorario(true);
+  $("#btnSubmitFormularioHorario").html("MODIFICAR");
+  $("#formularioHorario .h4").html("MODIFICAR HORARIO");
+  $("#daySelect").val(String(horario.day));
+  console.log("editando");
+  setDateTimePicker(
+    "#timepickerStart",
+    horario.startTime,
+    "7:30",
+    "19:30",
+    "startTime"
+  );
+  setDateTimePicker(
+    "#timepickerEnd",
+    horario.endTime,
+    "8:20",
+    "19:30",
+    "endTime"
+  );
+};
+
+const eliminarHorario = index => {
+  horarioList = horarioList.filter((el, pos) => index !== pos);
+  renderHorarioTable();
+  $(".modal-backdrop").remove();
+};
+
+const setDefaultValuesFormHorario = () => {
+  $("#daySelect").val("0");
+  $("#daySelect").on("change", function(event) {
+    currentHorario.day = $(this).val();
+  });
+
+  setDateTimePicker("#timepickerStart", "7:30", "7:30", "19:30", "startTime");
+  setDateTimePicker("#timepickerEnd", "8:20", "8:20", "19:30", "endTime");
 };

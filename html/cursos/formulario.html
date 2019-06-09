@@ -10,6 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/css/mdb.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="../../css/style.css"/>
     <link rel="stylesheet" href="../../css/otherStyle.css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css"/>
   </head>
   <body class="grey lighten-3">
     <header>
@@ -43,17 +44,75 @@
     </header>
     <main class="pt-5 mx-lg-5">
       <div class="container-fluid mt-5">
-        <form class="text-center border border-light p-5" id="formularioCurso">
-          <p class="h4 mb-4">REGISTRO DE CURSOS</p>
-          <!-- Name-->
-          <input class="form-control mb-4" id="name" type="text" name="name" placeholder="Nombre del Curso"/>
-          <!-- Tipo de Usuario-->
-          <select class="browser-default custom-select mb-4" id="userSelect" name="user">
-            <option value="" disabled="" selected="">Elija Docente</option>
-          </select>
-          <!-- Send button-->
-          <button class="btn btn-info btn-block" type="submit">Registrar</button>
-        </form>
+        <div class="row">
+          <div class="col-md-6">
+            <form class="bgWhite text-center border border-light p-5" id="formularioCurso">
+              <p class="h4 mb-4">REGISTRO DE CURSOS</p>
+              <!-- Name-->
+              <div class="formularioHorario__input">
+                <label for="timepickerStart">Nombre de curso</label>
+                <input class="form-control mb-4" id="name" type="text" name="name" placeholder="Nombre del Curso"/>
+              </div>
+              <div class="formularioHorario__input">
+                <label for="timepickerStart">Docente</label>
+                <select class="browser-default custom-select mb-4" id="userSelect" name="user">
+                  <option value="" disabled="" selected="">Elija Docente</option>
+                </select>
+              </div>
+              <div class="listadoHorarios">
+                <div>
+                  <button class="btnAgregar btnAgregarHorario btn btn-info">AGREGAR HORARIO</button>
+                </div>
+                <div class="table-responsive text-nowrap">
+                  <!-- Table-->
+                  <table class="table table-striped" id="horarioTable">
+                    <!-- Table head-->
+                    <thead>
+                      <tr> 
+                        <th>N°</th>
+                        <th>DIA</th>
+                        <th>HORA INICIO </th>
+                        <th>HORA FIN</th>
+                        <th>OPCIONES</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+              <button class="btn btn-info btn-block" type="submit">Registrar curso</button>
+            </form>
+          </div>
+          <div class="col-md-6">
+            <div class="formularioHorario formHidden">
+              <form class="text-center border border-light p-5" id="formularioHorario">
+                <button class="close" type="button"><span aria-hidden="true">×</span></button>
+                <p class="h4 mb-4">REGISTRO DE HORARIO</p>
+                <div class="formularioHorario__input">
+                  <label for="daySelect">Día de la semana</label>
+                  <select class="browser-default custom-select mb-4" id="daySelect" name="day">
+                    <option value="0" selected="selected">Lunes</option>
+                    <option value="1">Martes</option>
+                    <option value="2">Miercoles</option>
+                    <option value="3">Jueves</option>
+                    <option value="4">Viernes</option>
+                    <option value="5">Sabado</option>
+                    <option value="6">Domingo</option>
+                  </select>
+                </div>
+                <div class="formularioHorario__input">
+                  <label for="timepickerStart">Hora inicio</label>
+                  <input class="form-control" id="timepickerStart" type="text" name="startTime"/>
+                </div>
+                <div class="formularioHorario__input">
+                  <label for="timepickerEnd">Hora fin</label>
+                  <input class="form-control" id="timepickerEnd" type="text" name="endTime"/>
+                </div>
+                <button class="btn btn-info" id="btnSubmitFormularioHorario" type="submit">Registrar</button>
+                <button class="btn btn-info" id="closeFormularioHorario" type="button">Cencelar</button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -61,5 +120,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.2/js/mdb.min.js"></script>
     <script src="/js/app-dist.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script src="/js/moment.min.js"></script>
   </body>
 </html>

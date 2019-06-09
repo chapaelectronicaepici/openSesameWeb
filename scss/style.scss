@@ -9,3 +9,22 @@
     width: 40rem;
   }
 }
+
+#formularioHorario {
+  background: white;
+}
+
+.formularioHorario {
+  &__input {
+    text-align: left;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  &.formHidden {
+    display: none;
+  }
+}
+
+.bgWhite {
+  background: white;
+}

@@ -1,14 +1,72 @@
 extends ../dashboard.pug
 
+block styles
+  link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css')
+
+block scripts
+  script(src='//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js')
+  script(src='/js/moment.min.js')
+
+
 block content
-  form#formularioCurso.text-center.border.border-light.p-5
-    p.h4.mb-4 REGISTRO DE CURSOS
-    // Name
-    input#name.form-control.mb-4(type='text', name= "name", placeholder='Nombre del Curso')
-   
-    // Tipo de Usuario
-    select#userSelect.browser-default.custom-select.mb-4(name= "user")
-      option(value='', disabled='', selected='') Elija Docente
+  .row
+    .col-md-6
+      form#formularioCurso.bgWhite.text-center.border.border-light.p-5
+        p.h4.mb-4 REGISTRO DE CURSOS
+        // Name
+        .formularioHorario__input
+          label(for='timepickerStart') Nombre de curso
+          input#name.form-control.mb-4(type='text', name= "name", placeholder='Nombre del Curso')
+      
+        .formularioHorario__input
+          label(for='timepickerStart') Docente
+          select#userSelect.browser-default.custom-select.mb-4(name= "user")
+            option(value='', disabled='', selected='') Elija Docente
+
     
-    // Send button
-    button.btn.btn-info.btn-block(type='submit') Registrar
+        .listadoHorarios
+          div
+            button.btnAgregar.btnAgregarHorario.btn.btn-info AGREGAR HORARIO
+          .table-responsive.text-nowrap
+            // Table
+            table#horarioTable.table.table-striped
+              // Table head
+              thead
+                tr 
+                  th N°
+                  th DIA
+                  th HORA INICIO 
+                  th HORA FIN
+                  th OPCIONES
+        
+        button.btn.btn-info.btn-block(type='submit') Registrar curso
+    .col-md-6
+      div.formularioHorario.formHidden
+        form#formularioHorario.text-center.border.border-light.p-5
+          
+          button.close(type='button')
+            span(aria-hidden='true') ×
+
+          p.h4.mb-4 REGISTRO DE HORARIO
+
+          .formularioHorario__input
+            label(for='daySelect') Día de la semana
+            select#daySelect.browser-default.custom-select.mb-4(name= "day")
+              option(value='0' ,selected) Lunes
+              option(value='1') Martes
+              option(value='2') Miercoles
+              option(value='3') Jueves
+              option(value='4') Viernes
+              option(value='5') Sabado
+              option(value='6') Domingo
+          .formularioHorario__input
+            label(for='timepickerStart') Hora inicio
+            input#timepickerStart.form-control(type="text" name="startTime")
+          .formularioHorario__input
+            label(for='timepickerEnd') Hora fin
+            input#timepickerEnd.form-control(type="text" name="endTime")
+          
+          button#btnSubmitFormularioHorario.btn.btn-info(type='submit') Registrar
+          button#closeFormularioHorario.btn.btn-info(type='button') Cencelar
+
+    

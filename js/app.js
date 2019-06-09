@@ -12,7 +12,6 @@ const paths = {
   usuarios_listado: "/html/usuarios/listado.html",
   usuarios_formulario: "/html/usuarios/formulario.html",
   horarios_listado: "/html/horarios/listado.html",
-  horarios_formulario: "/html/horarios/formulario.html",
   cursos_listado: "/html/cursos/listado.html",
   cursos_formulario: "/html/cursos/formulario.html"
 };
