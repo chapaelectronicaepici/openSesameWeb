@@ -35,11 +35,9 @@ class OpenSesame {
     this.setCurrentPath();
     this.validateIsLogin();
     this.callScripts();
-    console.log(window.origin);
   };
 
   callScripts = () => {
-    console.log("this.currentPath", this.currentPath);
     switch (this.currentPath) {
       case "login":
         loginForm(this);

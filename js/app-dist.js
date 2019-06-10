@@ -77,8 +77,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 })(typeof window != "undefined" ? window : undefined);
 
 var config = {
-  //api: "http://staff360api.socialpressplugin.xyz:8000"
-  api: "http://localhost:8000"
+  api: "http://staff360api.socialpressplugin.xyz:8000"
+  // api: "http://localhost:8000"
 };
 
 var fetchApi = async function fetchApi(endPoint) {
@@ -547,11 +547,9 @@ var OpenSesame = function OpenSesame() {
     _this.setCurrentPath();
     _this.validateIsLogin();
     _this.callScripts();
-    console.log(window.origin);
   };
 
   this.callScripts = function () {
-    console.log("this.currentPath", _this.currentPath);
     switch (_this.currentPath) {
       case "login":
         loginForm(_this);
