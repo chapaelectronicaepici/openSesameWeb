@@ -1,5 +1,6 @@
 const config = {
-  api: "http://staff360api.socialpressplugin.xyz:8000"
+  api: "https://shielded-thicket-71693.herokuapp.com/"
+  // api: "http://staff360api.socialpressplugin.xyz:8000"
   // api: "http://localhost:8000"
 };
 
