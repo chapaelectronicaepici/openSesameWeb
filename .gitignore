@@ -9,8 +9,4 @@ yarn.lock
 html/*
 /html/
 html
-/js/app-dist.js
-/js/app-dist.js.map
 .env
-js/app-dist.js
-js/app-dist.js.map

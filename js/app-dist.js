@@ -547,6 +547,7 @@ var OpenSesame = function OpenSesame() {
     _this.setCurrentPath();
     _this.validateIsLogin();
     _this.callScripts();
+    console.log(window.origin);
   };
 
   this.callScripts = function () {

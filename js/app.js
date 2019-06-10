@@ -35,6 +35,7 @@ class OpenSesame {
     this.setCurrentPath();
     this.validateIsLogin();
     this.callScripts();
+    console.log(window.origin);
   };
 
   callScripts = () => {
