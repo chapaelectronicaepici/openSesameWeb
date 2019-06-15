@@ -77,9 +77,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 })(typeof window != "undefined" ? window : undefined);
 
 var config = {
-  // api: "https://shielded-thicket-71693.herokuapp.com"
+  api: "https://shielded-thicket-71693.herokuapp.com"
   // api: "http://staff360api.socialpressplugin.xyz:8000"
-  api: "http://localhost:8000"
+  //api: "http://localhost:8000"
 };
 
 var fetchApi = async function fetchApi(endPoint) {
