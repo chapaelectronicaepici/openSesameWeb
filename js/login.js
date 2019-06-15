@@ -13,6 +13,12 @@ const loginForm = () => {
       "POST"
     )
       .then(response => {
+        console.log("response", response);
+        if (response.data.role !== "administrator") {
+          localStorage.clear();
+          redirectTo("login");
+          return;
+        }
         if (response.error) {
           alert("Error al iniciar sesión, credenciales incorrectas.");
         } else {

@@ -8,8 +8,8 @@ const listadoCursos = () => {
 
 const renderCursos = async () => {
   const courses = await fetchApi("/api/courses/");
-  $("#cursosTable tbody").html("");
-  $("#cursosTable").append(`
+  document.querySelector("#cursosTable tbody").innerHTML = "";
+  document.querySelector("#cursosTable tbody").innerHTML = `
     <tbody>
       ${courses.map((course, index) => {
         const popup = `
@@ -64,7 +64,7 @@ const renderCursos = async () => {
         `;
       })}
     </tbody>
-  `);
+  `;
 };
 
 const eliminarCurso = async id => {

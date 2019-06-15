@@ -79,12 +79,13 @@ class OpenSesame {
           .addClass("active");
       }
     });
-    const name = localStorage.getItem("name");
+    let name = localStorage.getItem("name");
     if (!name) {
       const user = await fetchApi("/api/users/data/me");
       localStorage.setItem("name", `${user.name} ${user.lastName}`);
+      name = localStorage.getItem("name");
     }
-    $(".textNombreUsuario").html(name);
+    document.querySelector(".textNombreUsuario").innerHTML = name;
   };
 
   setCurrentPath = () => {

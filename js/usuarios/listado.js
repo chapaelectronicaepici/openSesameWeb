@@ -9,8 +9,12 @@ const listadoUsuarios = page => {
 
 const renderUsuarios = async () => {
   const users = await fetchApi("/api/users/");
-  $("#usuariosTable tbody").html("");
-  $("#usuariosTable").append(`
+  console.log(
+    'document.querySelector("#usuariosTable tbody")',
+    document.querySelector("#usuariosTable tbody")
+  );
+  document.querySelector("#usuariosTable tbody").innerHTML = "";
+  document.querySelector("#usuariosTable tbody").innerHTML = `
     <tbody>
       ${users.map((user, index) => {
         const popup = `
@@ -66,7 +70,7 @@ const renderUsuarios = async () => {
         return html;
       })}
     </tbody>
-  `);
+  `;
 };
 
 const eliminarUsuario = async id => {

@@ -106,6 +106,12 @@ var loginForm = function loginForm() {
       email: email,
       password: password
     }, "POST").then(function (response) {
+      console.log("response", response);
+      if (response.data.role !== "administrator") {
+        localStorage.clear();
+        redirectTo("login");
+        return;
+      }
       if (response.error) {
         alert("Error al iniciar sesión, credenciales incorrectas.");
       } else {
@@ -184,13 +190,14 @@ var listadoUsuarios = function listadoUsuarios(page) {
 
 var renderUsuarios = async function renderUsuarios() {
   var users = await fetchApi("/api/users/");
-  $("#usuariosTable tbody").html("");
-  $("#usuariosTable").append("\n    <tbody>\n      " + users.map(function (user, index) {
+  console.log('document.querySelector("#usuariosTable tbody")', document.querySelector("#usuariosTable tbody"));
+  document.querySelector("#usuariosTable tbody").innerHTML = "";
+  document.querySelector("#usuariosTable tbody").innerHTML = "\n    <tbody>\n      " + users.map(function (user, index) {
     var popup = "\n          <div class=\"modal fade\" id=\"confirmDeleteUser" + user._id + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\"\n              aria-hidden=\"true\">\n              <div class=\"modal-dialog\" role=\"document\">\n                <div class=\"modal-content\">\n                  <div class=\"modal-header\">\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">\xBFSeguro que desea eliminar el usuario?</h5>\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                      <span aria-hidden=\"true\">&times;</span>\n                    </button>\n                  </div>\n                  <div class=\"modal-body\">\n                    Ya no podr\xE1 acceder a este usuario despues.\n                  </div>\n                  <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cerrar</button>\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onclick=\"eliminarUsuario('" + user._id + "')\">Eliminar</button>\n                  </div>\n                </div>\n              </div>\n        </div>\n        ";
 
     var html = "\n          <tr>\n            <td>" + (index + 1) + "</td>\n            <td>" + user.name + " " + user.lastName + "</td>\n            <td>" + user.email + "</td>\n            <td>" + (user.role === "teacher" ? "Profesor" : "Administrador") + "</td>\n            <td>\n              <a href=\"" + getRoute("usuarios_formulario") + "?id=" + user._id + "\" type=\"button\" class=\"btn btn-outline-info btn-rounded waves-effect\">\n                <i class=\"fa fa-pen\" aria-hidden=\"true\"></i>\n              </a>\n              <button type=\"button\" class=\"btn btn-danger btn-rounded waves-effect\" data-toggle=\"modal\" data-target=\"#confirmDeleteUser" + user._id + "\">\n                <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n              </button>\n            </td>\n            <td>\n              " + popup + "\n            </td>\n          </tr>\n        ";
     return html;
-  }) + "\n    </tbody>\n  ");
+  }) + "\n    </tbody>\n  ";
 };
 
 var eliminarUsuario = async function eliminarUsuario(id) {
@@ -421,14 +428,14 @@ var listadoCursos = function listadoCursos() {
 
 var renderCursos = async function renderCursos() {
   var courses = await fetchApi("/api/courses/");
-  $("#cursosTable tbody").html("");
-  $("#cursosTable").append("\n    <tbody>\n      " + courses.map(function (course, index) {
+  document.querySelector("#cursosTable tbody").innerHTML = "";
+  document.querySelector("#cursosTable tbody").innerHTML = "\n    <tbody>\n      " + courses.map(function (course, index) {
     var popup = "\n          <div class=\"modal fade\" id=\"confirmDeleteCurso" + course._id + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\"\n              aria-hidden=\"true\">\n              <div class=\"modal-dialog\" role=\"document\">\n                <div class=\"modal-content\">\n                  <div class=\"modal-header\">\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">\xBFSeguro que desea eliminar el curso?</h5>\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                      <span aria-hidden=\"true\">&times;</span>\n                    </button>\n                  </div>\n                  <div class=\"modal-body\">\n                    Ya no podr\xE1 acceder a este curso despues.\n                  </div>\n                  <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cerrar</button>\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onclick=\"eliminarCurso('" + course._id + "')\">Eliminar</button>\n                  </div>\n                </div>\n              </div>\n        </div>\n        ";
     var userName = "No asignado";
     if (course.user) userName = course.user.name + " " + course.user.lastName;
 
     return "\n          <tr>\n            <td>" + (index + 1) + "</td>\n            <td>" + course.name + "</td>\n            <td>" + userName + "</td>\n            <td>\n              <a href=\"" + getRoute("cursos_formulario") + "?id=" + course._id + "\" type=\"button\" class=\"btn btn-outline-info btn-rounded waves-effect\">\n                <i class=\"fa fa-pen\" aria-hidden=\"true\"></i>\n              </a>\n              <button type=\"button\" class=\"btn btn-danger btn-rounded waves-effect\" data-toggle=\"modal\" data-target=\"#confirmDeleteCurso" + course._id + "\">\n                <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n              </button>\n            </td>\n            <td>" + popup + " </td>\n          </tr>\n        ";
-  }) + "\n    </tbody>\n  ");
+  }) + "\n    </tbody>\n  ";
 };
 
 var eliminarCurso = async function eliminarCurso(id) {
@@ -594,8 +601,9 @@ var OpenSesame = function OpenSesame() {
     if (!name) {
       var user = await fetchApi("/api/users/data/me");
       localStorage.setItem("name", user.name + " " + user.lastName);
+      name = localStorage.getItem("name");
     }
-    $(".textNombreUsuario").html(name);
+    document.querySelector(".textNombreUsuario").innerHTML = name;
   };
 
   this.setCurrentPath = function () {
