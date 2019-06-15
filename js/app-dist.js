@@ -453,7 +453,9 @@ var configurarHorario = async function configurarHorario() {
   });
   var courses = await fetchApi("/api/courses/");
   var schedulesR = [];
-  courses.forEach(function (_ref3) {
+
+  var codesColor = ["#66DCC0", "#CC833F", "#3FB9CC", "#FFA66B", "#EE7E14", "#B6E587", "#D3D3BA", "#D67642", "#6BFFF0", "#64EFAA", "#ACC4EF", "#f7f957", "#F7BD51", "#B6F957", "#B6F957"];
+  courses.forEach(function (_ref3, index) {
     var schedules = _ref3.schedules,
         name = _ref3.name;
 
@@ -463,9 +465,10 @@ var configurarHorario = async function configurarHorario() {
       schedulesR.push({
         textColor: "#000000",
         textAlign: "center",
-        color: "#66DCC0",
-        backgroundColor: "#66DCC0",
+        backgroundColor: codesColor[index],
+        borderColor: codesColor[index],
         title: name,
+        nowIndicator: true,
         start: baseDate.clone().add({
           days: schedule.day,
           minutes: durationStart.minutes(),
@@ -481,26 +484,21 @@ var configurarHorario = async function configurarHorario() {
       });
     });
   });
-
-  schedulesR.map(function (sche) {
-    console.log("start", moment(sche.start).format("DD/MM/YY HH:mm"));
-    console.log("end", moment(sche.end).format("DD/MM/YY HH:mm"));
-  });
-
   var calendarEl = document.getElementById("calendar");
-
   var calendar = new FullCalendar.Calendar(calendarEl, {
     plugins: ["dayGrid", "timeGrid"],
     header: {
       left: "",
       center: "",
       right: ""
-    }, // buttons for switching between views
+    },
+    weekends: false,
     selectable: false,
     selectHelper: false,
     editable: false,
     eventLimit: true,
     defaultView: "timeGridWeek",
+    allDaySlot: false,
     minTime: "07:30:00",
     maxTime: "20:10:00",
     scrollTime: "20:10:00",
