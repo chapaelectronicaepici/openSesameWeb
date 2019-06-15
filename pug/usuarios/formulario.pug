@@ -8,7 +8,7 @@ block content
     // LastName
     input#lastName.form-control.mb-4(type='text', name= "lastName", placeholder='Apellidos')
     // Dni
-    input#dni.form-control.mb-4(type='number', name= "dni", placeholder='DNI')
+    input#dni.form-control.mb-4(type='text', title="Solo 8 numeros", pattern="^(\d|,)*\d*$" ,maxlength="8", name= "dni", placeholder='DNI')
     // Email
     input#email.form-control.mb-4(type='email', name= "email", placeholder='E-mail')
     //Password
