@@ -7,8 +7,6 @@ block content
     input#name.form-control.mb-4(type='text', name= "name", placeholder='Nombre')
     // LastName
     input#lastName.form-control.mb-4(type='text', name= "lastName", placeholder='Apellidos')
-    // Dni
-    input#dni.form-control.mb-4(type='text', title="Solo 8 numeros", pattern="^(\d|,)*\d*$" ,maxlength="8", name= "dni", placeholder='DNI')
     // Email
     input#email.form-control.mb-4(type='email', name= "email", placeholder='E-mail')
     //Password
@@ -20,4 +18,4 @@ block content
       option(value='teacher') Docente
     
     // Send button
-    button.btn.btn-info.btn-block(type='submit') Guardar
+    button#btnRegistrarUsuario.btn.btn-info.btn-block(type='submit') Guardar

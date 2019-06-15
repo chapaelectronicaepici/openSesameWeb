@@ -1,21 +1,21 @@
 const formularioUsuario = async () => {
   const url_string = window.location.href;
   const url = new URL(url_string);
-  const idUser = url.searchParams.get("id") || "";
+  const idUser = url.searchParams.get("id") || null;
   let method = "POST";
   if (idUser) {
     method = "PUT";
     try {
-      const { error, user } = await fetchApi(`/api/users/${idUser}`);
+      const { error, user } = await fetchApi(`/api/users/${idUser}/`);
       if (error) {
         redirectTo("usuarios_listado");
       }
-      $("#name").val(user.name);
-      $("#lastName").val(user.lastName);
-      $("#dni").val(user.dni);
-      $("#email").val(user.email);
-      $("#password").val(user.password);
-      $("#role").val(user.role);
+      document.querySelector("#name").value = user.name;
+      document.querySelector("#lastName").value = user.lastName;
+      document.querySelector("#email").value = user.email;
+      document.querySelector("#role").value = user.role;
+      document.querySelector("#btnRegistrarUsuario").innerHTML =
+        "MODIFICAR USUARIO";
     } catch (error) {
       redirectTo("usuarios_listado");
     }
@@ -27,9 +27,6 @@ const formularioUsuario = async () => {
       .val()
       .trim();
     const lastName = $("#lastName")
-      .val()
-      .trim();
-    const dni = $("#dni")
       .val()
       .trim();
     const email = $("#email")
@@ -44,7 +41,6 @@ const formularioUsuario = async () => {
       {
         name,
         lastName,
-        dni,
         email,
         password,
         role

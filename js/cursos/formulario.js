@@ -2,17 +2,19 @@ const formularioCurso = async () => {
   await llenarFormulario();
   const url_string = window.location.href;
   const url = new URL(url_string);
-  const idUser = url.searchParams.get("id") || "";
+  const idCourse = url.searchParams.get("id") || null;
   let method = "POST";
-  if (idUser) {
+  if (idCourse) {
     method = "PUT";
     try {
-      const { error, course } = await fetchApi(`/api/courses/${idUser}`);
+      const { error, course } = await fetchApi(`/api/courses/${idCourse}/`);
       if (error) {
         redirectTo("cursos_listado");
       }
-      $("#name").val(course.name);
-      $("#userSelect").val(course.user._id);
+      document.querySelector("#name").value = course.name;
+      document.querySelector("#userSelect").value = course.user._id;
+      document.querySelector("#btnRegistrarButton").innerHTML =
+        "MODIFICAR CURSO";
       horarioList = course.schedules;
       renderHorarioTable();
     } catch (error) {
@@ -23,10 +25,16 @@ const formularioCurso = async () => {
   const $form = $("#formularioCurso");
   $form.submit(event => {
     event.preventDefault();
+
+    if (horarioList.length === 0) {
+      alert("Debe de registrar al menos un horario.");
+      return;
+    }
+
     const name = $("#name").val();
     const user = $("#userSelect").val();
     fetchApi(
-      `/api/courses/${idUser}`,
+      `/api/courses/${idCourse}`,
       {
         name,
         user,
@@ -100,13 +108,13 @@ let currentHorario = {
 let horarioList = [];
 
 const daysName = [
-  "Lunes",
-  "Martes",
-  "Miercoles",
-  "Jueves",
-  "Viernes",
-  "Sabado",
-  "Domingo"
+  "LUNES",
+  "MARTES",
+  "MIERCOLES",
+  "JUEVES",
+  "VIERNES",
+  "SABADO",
+  "DOMINGO"
 ];
 
 const saveHorario = async () => {
@@ -125,8 +133,8 @@ const saveHorario = async () => {
 };
 
 const renderHorarioTable = () => {
-  $("#horarioTable tbody").html("");
-  $("#horarioTable").append(`
+  document.querySelector("#horarioTable tbody").innerHTML = "";
+  document.querySelector("#horarioTable").innerHTML = `
     <tbody>
       ${horarioList.map((horario, index) => {
         const popup = `
@@ -174,7 +182,7 @@ const renderHorarioTable = () => {
         return html;
       })}
     </tbody>
-  `);
+  `;
 };
 
 const setDateTimePicker = (selector, date, min, max, fieldName) => {

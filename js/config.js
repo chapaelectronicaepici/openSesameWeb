@@ -1,7 +1,7 @@
 const config = {
   api: "https://shielded-thicket-71693.herokuapp.com"
   // api: "http://staff360api.socialpressplugin.xyz:8000"
-  //api: "http://localhost:8000"
+  // api: "http://localhost:8000"
 };
 
 const fetchApi = async (

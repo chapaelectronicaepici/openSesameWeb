@@ -79,7 +79,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var config = {
   api: "https://shielded-thicket-71693.herokuapp.com"
   // api: "http://staff360api.socialpressplugin.xyz:8000"
-  //api: "http://localhost:8000"
+  // api: "http://localhost:8000"
 };
 
 var fetchApi = async function fetchApi(endPoint) {
@@ -128,24 +128,23 @@ var loginForm = function loginForm() {
 var formularioUsuario = async function formularioUsuario() {
   var url_string = window.location.href;
   var url = new URL(url_string);
-  var idUser = url.searchParams.get("id") || "";
+  var idUser = url.searchParams.get("id") || null;
   var method = "POST";
   if (idUser) {
     method = "PUT";
     try {
-      var _ref = await fetchApi("/api/users/" + idUser),
+      var _ref = await fetchApi("/api/users/" + idUser + "/"),
           error = _ref.error,
           user = _ref.user;
 
       if (error) {
         redirectTo("usuarios_listado");
       }
-      $("#name").val(user.name);
-      $("#lastName").val(user.lastName);
-      $("#dni").val(user.dni);
-      $("#email").val(user.email);
-      $("#password").val(user.password);
-      $("#role").val(user.role);
+      document.querySelector("#name").value = user.name;
+      document.querySelector("#lastName").value = user.lastName;
+      document.querySelector("#email").value = user.email;
+      document.querySelector("#role").value = user.role;
+      document.querySelector("#btnRegistrarUsuario").innerHTML = "MODIFICAR USUARIO";
     } catch (error) {
       redirectTo("usuarios_listado");
     }
@@ -155,14 +154,12 @@ var formularioUsuario = async function formularioUsuario() {
     event.preventDefault();
     var name = $("#name").val().trim();
     var lastName = $("#lastName").val().trim();
-    var dni = $("#dni").val().trim();
     var email = $("#email").val().trim();
     var password = $("#password").val().trim();
     var role = $("#role").val();
     fetchApi("/api/users/" + idUser, {
       name: name,
       lastName: lastName,
-      dni: dni,
       email: email,
       password: password,
       role: role
@@ -190,12 +187,11 @@ var listadoUsuarios = function listadoUsuarios(page) {
 
 var renderUsuarios = async function renderUsuarios() {
   var users = await fetchApi("/api/users/");
-  console.log('document.querySelector("#usuariosTable tbody")', document.querySelector("#usuariosTable tbody"));
   document.querySelector("#usuariosTable tbody").innerHTML = "";
   document.querySelector("#usuariosTable tbody").innerHTML = "\n    <tbody>\n      " + users.map(function (user, index) {
     var popup = "\n          <div class=\"modal fade\" id=\"confirmDeleteUser" + user._id + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\"\n              aria-hidden=\"true\">\n              <div class=\"modal-dialog\" role=\"document\">\n                <div class=\"modal-content\">\n                  <div class=\"modal-header\">\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">\xBFSeguro que desea eliminar el usuario?</h5>\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                      <span aria-hidden=\"true\">&times;</span>\n                    </button>\n                  </div>\n                  <div class=\"modal-body\">\n                    Ya no podr\xE1 acceder a este usuario despues.\n                  </div>\n                  <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cerrar</button>\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onclick=\"eliminarUsuario('" + user._id + "')\">Eliminar</button>\n                  </div>\n                </div>\n              </div>\n        </div>\n        ";
 
-    var html = "\n          <tr>\n            <td>" + (index + 1) + "</td>\n            <td>" + user.name + " " + user.lastName + "</td>\n            <td>" + user.email + "</td>\n            <td>" + (user.role === "teacher" ? "Profesor" : "Administrador") + "</td>\n            <td>\n              <a href=\"" + getRoute("usuarios_formulario") + "?id=" + user._id + "\" type=\"button\" class=\"btn btn-outline-info btn-rounded waves-effect\">\n                <i class=\"fa fa-pen\" aria-hidden=\"true\"></i>\n              </a>\n              <button type=\"button\" class=\"btn btn-danger btn-rounded waves-effect\" data-toggle=\"modal\" data-target=\"#confirmDeleteUser" + user._id + "\">\n                <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n              </button>\n            </td>\n            <td>\n              " + popup + "\n            </td>\n          </tr>\n        ";
+    var html = "\n          <tr>\n            <td>" + (index + 1) + "</td>\n            <td>" + user.name + " " + user.lastName + "</td>\n            <td>" + user.email + "</td>\n            <td>" + (user.role === "teacher" ? "Docente" : "Administrador") + "</td>\n            <td>\n              <a href=\"" + getRoute("usuarios_formulario") + "?id=" + user._id + "\" type=\"button\" class=\"btn btn-outline-info btn-rounded waves-effect\">\n                <i class=\"fa fa-pen\" aria-hidden=\"true\"></i>\n              </a>\n              <button type=\"button\" class=\"btn btn-danger btn-rounded waves-effect\" data-toggle=\"modal\" data-target=\"#confirmDeleteUser" + user._id + "\">\n                <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n              </button>\n            </td>\n            <td>\n              " + popup + "\n            </td>\n          </tr>\n        ";
     return html;
   }) + "\n    </tbody>\n  ";
 };
@@ -209,20 +205,21 @@ var formularioCurso = async function formularioCurso() {
   await llenarFormulario();
   var url_string = window.location.href;
   var url = new URL(url_string);
-  var idUser = url.searchParams.get("id") || "";
+  var idCourse = url.searchParams.get("id") || null;
   var method = "POST";
-  if (idUser) {
+  if (idCourse) {
     method = "PUT";
     try {
-      var _ref2 = await fetchApi("/api/courses/" + idUser),
+      var _ref2 = await fetchApi("/api/courses/" + idCourse + "/"),
           error = _ref2.error,
           course = _ref2.course;
 
       if (error) {
         redirectTo("cursos_listado");
       }
-      $("#name").val(course.name);
-      $("#userSelect").val(course.user._id);
+      document.querySelector("#name").value = course.name;
+      document.querySelector("#userSelect").value = course.user._id;
+      document.querySelector("#btnRegistrarButton").innerHTML = "MODIFICAR CURSO";
       horarioList = course.schedules;
       renderHorarioTable();
     } catch (error) {
@@ -233,9 +230,15 @@ var formularioCurso = async function formularioCurso() {
   var $form = $("#formularioCurso");
   $form.submit(function (event) {
     event.preventDefault();
+
+    if (horarioList.length === 0) {
+      alert("Debe de registrar al menos un horario.");
+      return;
+    }
+
     var name = $("#name").val();
     var user = $("#userSelect").val();
-    fetchApi("/api/courses/" + idUser, {
+    fetchApi("/api/courses/" + idCourse, {
       name: name,
       user: user,
       schedules: horarioList
@@ -299,7 +302,7 @@ var currentHorario = {
 
 var horarioList = [];
 
-var daysName = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"];
+var daysName = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"];
 
 var saveHorario = async function saveHorario() {
   if (currentHorario.isNew) {
@@ -317,13 +320,13 @@ var saveHorario = async function saveHorario() {
 };
 
 var renderHorarioTable = function renderHorarioTable() {
-  $("#horarioTable tbody").html("");
-  $("#horarioTable").append("\n    <tbody>\n      " + horarioList.map(function (horario, index) {
+  document.querySelector("#horarioTable tbody").innerHTML = "";
+  document.querySelector("#horarioTable").innerHTML = "\n    <tbody>\n      " + horarioList.map(function (horario, index) {
     var popup = "\n          <div class=\"modal fade\" id=\"confirmDeleteHorario" + index + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\"\n              aria-hidden=\"true\">\n              <div class=\"modal-dialog\" role=\"document\">\n                <div class=\"modal-content\">\n                  <div class=\"modal-header\">\n                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">\xBFSeguro que desea eliminar el horario?</h5>\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n                      <span aria-hidden=\"true\">&times;</span>\n                    </button>\n                  </div>\n                  <div class=\"modal-body\">\n                    Ya no podr\xE1 acceder a este horario despues.\n                  </div>\n                  <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Cerrar</button>\n                    <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onclick=\"eliminarHorario(" + index + ")\">Eliminar</button>\n                  </div>\n                </div>\n              </div>\n        </div>\n        ";
 
     var html = "\n          <tr>\n            <td>" + (index + 1) + "</td>\n            <td>" + daysName[horario.day] + "</td>\n            <td>" + moment(horario.startTime).format("HH:mm") + "</td>\n            <td>" + moment(horario.endTime).format("HH:mm") + "</td>\n            <td>\n              <button type=\"button\" class=\"btn btn-outline-info btn-rounded waves-effect\" onclick=\"editarHorario(" + index + ")\">\n                <i class=\"fa fa-pen\" aria-hidden=\"true\"></i>\n              </button>\n              <button type=\"button\" class=\"btn btn-danger btn-rounded waves-effect\" data-toggle=\"modal\" data-target=\"#confirmDeleteHorario" + index + "\">\n                <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n              </button>\n            </td>\n            <td>\n              " + popup + "\n            </td>\n          </tr>\n        ";
     return html;
-  }) + "\n    </tbody>\n  ");
+  }) + "\n    </tbody>\n  ";
 };
 
 var setDateTimePicker = function setDateTimePicker(selector, date, min, max, fieldName) {

@@ -9,10 +9,6 @@ const listadoUsuarios = page => {
 
 const renderUsuarios = async () => {
   const users = await fetchApi("/api/users/");
-  console.log(
-    'document.querySelector("#usuariosTable tbody")',
-    document.querySelector("#usuariosTable tbody")
-  );
   document.querySelector("#usuariosTable tbody").innerHTML = "";
   document.querySelector("#usuariosTable tbody").innerHTML = `
     <tbody>
@@ -49,7 +45,7 @@ const renderUsuarios = async () => {
             <td>${index + 1}</td>
             <td>${user.name} ${user.lastName}</td>
             <td>${user.email}</td>
-            <td>${user.role === "teacher" ? "Profesor" : "Administrador"}</td>
+            <td>${user.role === "teacher" ? "Docente" : "Administrador"}</td>
             <td>
               <a href="${getRoute("usuarios_formulario")}?id=${
           user._id
