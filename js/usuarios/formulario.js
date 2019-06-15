@@ -37,7 +37,7 @@ const formularioUsuario = async () => {
       .trim();
     const role = $("#role").val();
     fetchApi(
-      `/api/users/${idUser}`,
+      `/api/users/${idUser || ""}`,
       {
         name,
         lastName,

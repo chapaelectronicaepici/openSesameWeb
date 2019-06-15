@@ -157,7 +157,7 @@ var formularioUsuario = async function formularioUsuario() {
     var email = $("#email").val().trim();
     var password = $("#password").val().trim();
     var role = $("#role").val();
-    fetchApi("/api/users/" + idUser, {
+    fetchApi("/api/users/" + (idUser || ""), {
       name: name,
       lastName: lastName,
       email: email,
@@ -238,7 +238,7 @@ var formularioCurso = async function formularioCurso() {
 
     var name = $("#name").val();
     var user = $("#userSelect").val();
-    fetchApi("/api/courses/" + idCourse, {
+    fetchApi("/api/courses/" + (idCourse || ""), {
       name: name,
       user: user,
       schedules: horarioList
