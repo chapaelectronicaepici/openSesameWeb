@@ -11,6 +11,9 @@
     img {
       width: 100%;
     }
+    @media (max-width: 30rem) {
+      width: 100%;
+    }
   }
   .copyright {
     color: #a2a6a6;

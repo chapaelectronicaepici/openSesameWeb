@@ -6,7 +6,8 @@
   align-items: center;
   justify-content: center;
   .loginForm {
-    width: 40rem;
+    max-width: 40rem;
+    width: 100%;
   }
 }
 
