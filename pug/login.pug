@@ -7,11 +7,21 @@ block content
         div.logoEpiciLogin
           img(src="../img/EPICI.png", alt="Epici")
         // Email
+        #errorLogin.alert.alert-danger.hidden Credenciales incorrectas
         input#email.form-control.mb-4(type='email' placeholder='E-mail')
         // Password
         input#password.form-control.mb-4(type='password' placeholder='Password')
-        .d-flex.justify-content-around
         // Sign in button
         button.btn.btn-info.btn-block.my-4 Iniciar Sesión
+        #spinLogin.lds-roller.hidden
+          div
+          div
+          div
+          div
+          div
+          div
+          div
+          div
+        
         div.copyright
           | © Cortegana, Chinchay, Lluén, Peña  

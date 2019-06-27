@@ -16,12 +16,22 @@
         <form class="loginForm text-center border border-light p-5" id="formLogin">
           <div class="logoEpiciLogin"><img src="../img/EPICI.png" alt="Epici"/></div>
           <!-- Email-->
+          <div class="alert alert-danger hidden" id="errorLogin">Credenciales incorrectas</div>
           <input class="form-control mb-4" id="email" type="email" placeholder="E-mail"/>
           <!-- Password-->
           <input class="form-control mb-4" id="password" type="password" placeholder="Password"/>
-          <div class="d-flex justify-content-around"></div>
           <!-- Sign in button-->
           <button class="btn btn-info btn-block my-4">Iniciar Sesión</button>
+          <div class="lds-roller hidden" id="spinLogin">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
           <div class="copyright">© Cortegana, Chinchay, Lluén, Peña  </div>
         </form>
       </div>

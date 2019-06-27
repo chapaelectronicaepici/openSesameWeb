@@ -33,6 +33,9 @@ const formularioCurso = async () => {
 
     const name = $("#name").val();
     const user = $("#userSelect").val();
+    if (!name || !user) {
+      return;
+    }
     fetchApi(
       `/api/courses/${idCourse || ""}`,
       {

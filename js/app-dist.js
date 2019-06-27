@@ -98,10 +98,22 @@ var fetchApi = async function fetchApi(endPoint) {
 
 var loginForm = function loginForm() {
   var $form = $("#formLogin");
+  var spinner = document.querySelector("#spinLogin");
+  var error = document.querySelector("#errorLogin");
+
+  $("#email, #password").on("keyup", function (event) {
+    error.classList.add("hidden");
+  });
+
   $form.submit(function (event) {
     event.preventDefault();
     var email = $("#email").val();
     var password = $("#password").val();
+
+    if (email.trim() === "" || password.trim() === "") {
+      return null;
+    }
+    spinner.classList.remove("hidden");
     fetchApi("/api/users/login/", {
       email: email,
       password: password
@@ -119,8 +131,8 @@ var loginForm = function loginForm() {
         redirectTo("usuarios_listado");
       }
     }).catch(function (err) {
-      console.log(err);
-      alert("error");
+      spinner.classList.add("hidden");
+      error.classList.remove("hidden");
     });
   });
 };
@@ -238,6 +250,9 @@ var formularioCurso = async function formularioCurso() {
 
     var name = $("#name").val();
     var user = $("#userSelect").val();
+    if (!name || !user) {
+      return;
+    }
     fetchApi("/api/courses/" + (idCourse || ""), {
       name: name,
       user: user,
