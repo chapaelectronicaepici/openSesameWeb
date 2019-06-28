@@ -78,8 +78,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var config = {
   api: "https://opensesameepici.herokuapp.com"
-  // api: "http://staff360api.socialpressplugin.xyz:8000"
-  // api: "http://localhost:8000"
+  // api: "http://staff360api.socialpressplugin.xyz:9000"
+  // api: "http://localhost:9000"
 };
 
 var fetchApi = async function fetchApi(endPoint) {
